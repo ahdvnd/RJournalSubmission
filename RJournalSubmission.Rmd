@@ -1,0 +1,89 @@
+---
+title: A package for Cleaning and Analyzing Coursera OnDemand Data
+author:
+  - name: Aboozar Hadavand
+    affiliation: Bloomberg School of Public Health, Johns Hopkins University
+    address:
+    - 615 N. Wolfe Street
+    - Baltimore, MD 21205, USA
+    email:  hadavand@jhu.edu
+  - name: Jeffrey Leek
+    affiliation: Bloomberg School of Public Health, Johns Hopkins University
+    address:
+    - 615 N. Wolfe Street
+    - Baltimore, MD 21205, USA
+    email:  jtleek@jhu.edu
+abstract: >
+  An abstract of less than 150 words.
+preamble: >
+  % Any extra latex you need in the preamble
+output: rticles::rjournal_article
+---
+
+## Introduction
+
+Why this paper?
+\begin{itemize}
+    \item talk about moocs
+    \item one challenge in studying moocs is data
+    \item even when data are available, the difficulty of data analysis makes it hard for researcher
+    \item therefore, I provided this paper
+    \item moocs have become massive laboratory for pedagogy
+    \item in this paper I introduce the package and run an analysis of students progress using the package.
+\end{itemize}
+
+
+
+Research on Massive Open Online Courses (MOOCs) has been increasing over the past few years with more data being accumulated and collected. 
+
+
+
+
+## crsra Package
+
+talk about the package
+
+
+
+## Analysis of student behavior on Coursera
+
+provide the analaysis here
+
+
+## Discussion
+
+
+
+
+
+
+
+<!-- ## Introduction -->
+
+<!-- Introductory section which may include references in parentheses -->
+<!-- \citep{R}, or cite a reference such as \cite{R} in the text. -->
+
+<!-- ## Section title in sentence case -->
+
+<!-- This section may contain a figure such as Figure \ref{figure:rlogo}. -->
+
+<!-- \begin{figure}[htbp] -->
+<!--   \centering -->
+<!--   \includegraphics{Rlogo} -->
+<!--   \caption{The logo of R.} -->
+<!--   \label{figure:rlogo} -->
+<!-- \end{figure} -->
+
+<!-- ## Another section -->
+
+<!-- There will likely be several sections, perhaps including code snippets, such as: -->
+
+<!-- ```{r} -->
+<!-- x <- 1:10 -->
+<!-- x -->
+<!-- ``` -->
+
+<!-- ## Summary -->
+
+<!-- This file is only a basic article template. For full details of _The R Journal_ style and information on how to prepare your article for submission, see the [Instructions for Authors](https://journal.r-project.org/share/author-guide.pdf). -->
+<!-- \bibliography{RJreferences} -->
