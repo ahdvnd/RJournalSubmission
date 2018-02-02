@@ -30,11 +30,14 @@ Why this paper?
     \item therefore, I provided this paper
     \item moocs have become massive laboratory for pedagogy
     \item in this paper I introduce the package and run an analysis of students progress using the package.
+    \item statistics on coursera
 \end{itemize}
 
 
+It is hard to pin down the time of the birth of the first Massive Open Online Course (MOOC).\footnote{Some have claimed Sesame Street as the first MOOC. Delaney Parrish, "Sesame Street was the original MOOC," _BROOKINGS NOW_, The Brookings Institution, June 18, 2015, https://www.brookings.edu/blog/brookings-now/2015/06/18/sesame-street-was-the-original-mooc/} But since the advent of more focused MOOCs pioneered by universities and platforms such as Coursera, Udacity, and edX, reserachers have tried to focus on studying MOOCs. There are fundamental differences between traditional education and MOOCs was large enough to attract reserachers to study students' behavior and outcomes. These differences are best reflected in the definition of MOOCs by \cite{mcauley2010mooc} that "[a]n online course with the option of free and open registration, a publicly shared curriculum, and open-ended outcomes which integrates social networking, accessible online resources ... and most significantly builds on the engagement of learners who self-organize their participation according to learning goals, prior knowledge and skills, and common interests."
 
-Research on Massive Open Online Courses (MOOCs) has been increasing over the past few years with more data being accumulated and collected. 
+
+Research on MOOCs few years with more data being accumulated and collected. \cite{bozkurt2017trends} studied literature published on MOOCs throught 2015 and found that the number of articles published on the subject increased from 1 in 2008 to 170 in 2015. However, one of the main challenges in studying MOOCs remains to be data. Data is not usually publically available since it is owened by private MOOC providers and there are concerns about privacy of students. Even when data is available 
 
 
 
