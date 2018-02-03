@@ -37,7 +37,47 @@ Why this paper?
 It is hard to pin down the time of the birth of the first Massive Open Online Course (MOOC).\footnote{Some have claimed Sesame Street as the first MOOC. Delaney Parrish, "Sesame Street was the original MOOC," _BROOKINGS NOW_, The Brookings Institution, June 18, 2015, https://www.brookings.edu/blog/brookings-now/2015/06/18/sesame-street-was-the-original-mooc/} But since the advent of more focused MOOCs pioneered by universities and platforms such as Coursera, Udacity, and edX, reserachers have tried to focus on studying MOOCs. There are fundamental differences between traditional education and MOOCs was large enough to attract reserachers to study students' behavior and outcomes. These differences are best reflected in the definition of MOOCs by \cite{mcauley2010mooc} that "[a]n online course with the option of free and open registration, a publicly shared curriculum, and open-ended outcomes which integrates social networking, accessible online resources ... and most significantly builds on the engagement of learners who self-organize their participation according to learning goals, prior knowledge and skills, and common interests."
 
 
-Research on MOOCs few years with more data being accumulated and collected. \cite{bozkurt2017trends} studied literature published on MOOCs throught 2015 and found that the number of articles published on the subject increased from 1 in 2008 to 170 in 2015. However, one of the main challenges in studying MOOCs remains to be data. Data is not usually publically available since it is owened by private MOOC providers and there are concerns about privacy of students. Even when data is available 
+Research on MOOCs few years with more data being accumulated and collected. \cite{bozkurt2017trends} studied literature published on MOOCs throught 2015 and found that the number of articles published on the subject increased from 1 in 2008 to 170 in 2015. More research in needed to fully understand the effectiveness, reach, limits, and the potential of MOOCs. However, one of the main challenges in studying MOOCs remains to be data. Data is not usually publically available since it is owened by private MOOC providers and there are concerns about privacy of students. More importantly, as \cite{lopez2017google} point out, the size and complexity of MOOC data is an overwhelming challenge to many researchers. Therefore, it is imperative to provide tools that pave the way for more research on the new subject f MOOCs.
+
+This paper introduces a package called _crsra_ based on the statistical sofware R to help clean and analyze large loads of data from the Coursera MOOCs. The advantages of the package are as follows: a) faster loading of data for analysis, b) efficient method for combining data from multiple courses and even across institutions,\footnote{This is important since although MOOC researchers have access to thousands of students in their sample, few studies benefit from data across multiple courses and institutions. Such analysis helps draw more robust conclusions about student behaviors \citep{reich2015rebooting}.} and c) provision of a set of functions for analysing student behaviors.
+
+
+## Coursera 
+
+Coursera is 
+
+https://www.class-central.com/report/mooc-providers-list/
+From class-central: Coursera officially launched in January 2012, and it was started by two Stanford professors — Andrew Ng and Daphne Koller. With over 25 million students and $146.1 million raised in funding, Coursera is the biggest MOOC/online education provider in the world. It has over 150 university partners from 29 countries and 2,000+ online courses. Beyond single courses, Coursera offers its own credential, which is know as a Specialization, and it also offers fully-online Masters degrees. Coursera is also expanding into B2B via its Coursera for Business product.
+
+from: https://medium.com/@MyLeanMBA/breaking-down-the-top-3-mooc-platforms-coursera-udacity-edx-13e5ed481337
+
+Coursera was founded in 2012 by two Stanford Computer Science professors, and now features partnerships with top universities and educational institutions worldwide. Every course is taught by highly-qualified instructors in a format that may include recorded video lectures, graded assignments, quizzes, discussion forums, and peer-to-peer/ peer-to-instructor learning.
+
+Courses normally last 4–6 weeks, are online and open to anyone, and range from free to \$99 (usually paid for the verified certificate). Coursera has a series of more in-depth courses called Specializations, which can cost between $39–79 per month and take 4–6 months to complete.
+
+They also offers several of university-recognized online degrees in business, computer science, and data science. Admission is required for these online degree programs, and they can cost between $15–25,000. Coursera has recently launched 2 Master’s degrees in Accounting and Entrepreneurship.
+
+Stat on coursera: For example, Coursera currently has 62 university partners and is offering over 300 courses
+
+
+
+coursera website:
+25 milliion learners
+149 university partners
+2000+ curses
+180+ specialization
+4 degrees
+
+
+
+data about edx
+Founded by Harvard University and MIT in 2012, edX is a non-profit organization. It’s the second largest MOOC provider in the world with over ten million students. It offers over 1,500 courses and boasts more than 100+ university partners. EdX offers a number of different types of certificates programs: MicroMasters (which offer a pathway to credit), XSeries, Professional Certificate, and Professional Education. Earlier this year, edX got into the degree game with a new Online Masters in Analytics degree from Georgia Tech.
+
+Coursera – 23 million
+edX – 10 million
+XuetangX – 6 million
+FutureLearn – 5.3 million
+Udacity – 4 million
 
 
 
