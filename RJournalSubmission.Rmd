@@ -35,12 +35,58 @@ Coursera is one of the main providers of MOOCs that launched in January 2012. In
 
 Since the early years of the platform, Coursera has encouraged researchers to analyze students' data and has facilitated the use of the data and the platform for A/B testing. Starting November 2015 Coursera introduced a dashboard for self-service data exports. Through this tool, partner institutions and instructors can download data for a single course or all courses associated with the institutuion. Research data exports are sets of CSV files and are designed for use in relational database systems. One of the advantages of the data is the existence of a single *hashed user ID* for each student. This user ID is consistent for learners across all courses offered by an individual institution and allows for connecting learner grades and progress across course.
 
+There re five types of research data export for each course. The Table \ref{tab:datatypes} summarizes these five types. This set of data is written in roughly 100 tables: some containing course information and content, some containing students' information, progress, and outcomes, and some containing forum data. Figure \ref{figure:datatables} shows 
 
 
 
+\begin{table}
+\footnotesize
+\caption{Types of research data export}\
+\centering
+\label{tab:datatypes}
+\begin{tabular}{p{4cm}|p{6cm}}
+Data Type & Description \\
+\addlinespace
+\toprule
+Assessment submission data & Assessment submissions of quizzes, peer review, and programming assignments by learners.\%\\
+\midrule
+Course grade data & Contains the highest grade achieved by each learner on each required assessment as well as the timestamp of the learner's highest-scoring submission. This table also includes each learner's overall grade in the course.\%\\
+\midrule
+Course progress data & Contains data data documenting the timestamp for when the learner interacted with each piece of course content and the timestamps for when items were opened, completed, reopened, reattempted, etc.\%\\
+\midrule
+Demographic data & Contains the following information for all enrolled learners: general geographical data (based on IP address), browser language preference, and information for learners who completed their learner profile responses or participated in Coursera's platform-wide demographic survey (including age, gender, education level, and employment status).\%\\
+\midrule
+Discussion data & Contains forum activity data such as posts, responses, upvotes/downvotes, flags, and questions and answers associated with course content items\%\\
+\addlinespace
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.5]{datatables}
+    \caption{The major relationships between tables groups, with minor connections omitted (Source: Coursera)}
+    \label{figure:datatables}
+\end{figure}
+
+
+
+
+
+While Coursera provides tools for creating Postgres databases in a docker container\footnote{The tools is called `courseraresearchexports` and can be found here: https://github.com/coursera/courseraresearchexports}, as we mentioned earlier, importing data for analysis remains to be a challenge for researchers with limited experience with relational databases. Moreover, such tools are usually not platform independent.\footnote{In an initial version of `crsra` based on Postgresql we had the problem of some team members not being able to set up the database properly on their PCs.}
+
+
+
+
+
+
+
+
+
+## Importing Data Using crsra
 
 write about data from coursera's gitbook
-what kind of demographic
 size of data
 examples of hopkins courses
 provide a list of tables that connect different students.
@@ -86,6 +132,7 @@ provide the analaysis here
 
 
 
+\bibliography{RJreferences}
 
 
 
@@ -117,4 +164,3 @@ provide the analaysis here
 <!-- ## Summary -->
 
 <!-- This file is only a basic article template. For full details of _The R Journal_ style and information on how to prepare your article for submission, see the [Instructions for Authors](https://journal.r-project.org/share/author-guide.pdf). -->
-<!-- \bibliography{RJreferences} -->
