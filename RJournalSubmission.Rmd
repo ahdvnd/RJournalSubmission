@@ -26,16 +26,16 @@ It is hard to pin down the time of the birth of the first Massive Open Online Co
 
 Research on MOOCs few years with more data being accumulated and collected. \cite{bozkurt2017trends} studied literature published on MOOCs throught 2015 and found that the number of articles published on the subject increased from 1 in 2008 to 170 in 2015. More research in needed to fully understand the effectiveness, reach, limits, and the potential of MOOCs. However, one of the main challenges in studying MOOCs remains to be data. Data is not usually publically available since it is owened by private MOOC providers and there are concerns about privacy of students. More importantly, as \cite{lopez2017google} point out, the size and complexity of MOOC data is an overwhelming challenge to many researchers. Therefore, it is imperative to provide tools that pave the way for more research on the new subject of MOOCs.
 
-This paper introduces a package called _crsra_ based on the statistical sofware R to help clean and analyze large loads of data from the Coursera MOOCs. The advantages of the package are as follows: a) faster loading of data for analysis, b) efficient method for combining data from multiple courses and even across institutions,\footnote{This is important since although MOOC researchers have access to thousands of students in their sample, few studies benefit from data across multiple courses and institutions. Such analysis helps draw more robust conclusions about student behaviors \citep{reich2015rebooting}.} and c) provision of a set of functions for analysing student behaviors.
+This paper introduces a package called *crsra* based on the statistical sofware R to help clean and analyze large loads of data from the Coursera MOOCs. The advantages of the package are as follows: a) faster loading of data for analysis, b) efficient method for combining data from multiple courses and even across institutions,\footnote{This is important since although MOOC researchers have access to thousands of students in their sample, few studies benefit from data across multiple courses and institutions. Such analysis helps draw more robust conclusions about student behaviors \citep{reich2015rebooting}.} and c) provision of a set of functions for analysing student behaviors.
 
 
-## Coursera On-Demand Data
+## Coursera Research Data
 
 Coursera is one of the main providers of MOOCs that launched in January 2012. In fact, with over 25 million learners, Coursera is the biggest provider in the world being followed by EdX, the MOOC provider that was a result of a collaboration between Harvard Universit and MIT, with over 10 million users. Coursera has over 150 uiveristy partners from 29 countries and offers a toatl of 2000+ courses from computer science to philosophy \citep{coursera}. In addition, Coursera offers 180+ specialization, Coursera's own credential system, and 4 fully online Masters degrees. Courses include recorded video lectures, graded assignment, quizzes, and discussion forums.
 
 Since the early years of the platform, Coursera has encouraged researchers to analyze students' data and has facilitated the use of the data and the platform for A/B testing. Starting November 2015 Coursera introduced a dashboard for self-service data exports. Through this tool, partner institutions and instructors can download data for a single course or all courses associated with the institutuion. Research data exports are sets of CSV files and are designed for use in relational database systems. One of the advantages of the data is the existence of a single *hashed user ID* for each student. This user ID is consistent for learners across all courses offered by an individual institution and allows for connecting learner grades and progress across course.
 
-There re five types of research data export for each course. The Table \ref{tab:datatypes} summarizes these five types. This set of data is written in roughly 100 tables: some containing course information and content, some containing students' information, progress, and outcomes, and some containing forum data. Figure \ref{figure:datatables} shows 
+There are five types of research data export for each course. The Table \ref{tab:datatypes} summarizes these five types. This set of data is written in roughly 100 tables: some containing course information and content, some containing students' information, progress, and outcomes, and some containing forum data. Figure \ref{figure:datatables} shows 
 
 
 
@@ -44,19 +44,19 @@ There re five types of research data export for each course. The Table \ref{tab:
 \caption{Types of research data export}\
 \centering
 \label{tab:datatypes}
-\begin{tabular}{p{4cm}|p{6cm}}
+\begin{tabular}{p{4cm}|p{7cm}}
 Data Type & Description \\
 \addlinespace
 \toprule
-Assessment submission data & Assessment submissions of quizzes, peer review, and programming assignments by learners.\%\\
+Assessment submission data & Assessment submissions of quizzes, peer review, and programming assignments by learners.\\
 \midrule
-Course grade data & Contains the highest grade achieved by each learner on each required assessment as well as the timestamp of the learner's highest-scoring submission. This table also includes each learner's overall grade in the course.\%\\
+Course grade data & Contains the highest grade achieved by each learner on each required assessment as well as the timestamp of the learner's highest-scoring submission. This table also includes each learner's overall grade in the course.\\
 \midrule
-Course progress data & Contains data data documenting the timestamp for when the learner interacted with each piece of course content and the timestamps for when items were opened, completed, reopened, reattempted, etc.\%\\
+Course progress data & Contains data data documenting the timestamp for when the learner interacted with each piece of course content and the timestamps for when items were opened, completed, reopened, reattempted, etc.\\
 \midrule
-Demographic data & Contains the following information for all enrolled learners: general geographical data (based on IP address), browser language preference, and information for learners who completed their learner profile responses or participated in Coursera's platform-wide demographic survey (including age, gender, education level, and employment status).\%\\
+Demographic data & Contains the following information for all enrolled learners: general geographical data (based on IP address), browser language preference, and information for learners who completed their learner profile responses or participated in Coursera's platform-wide demographic survey (including age, gender, education level, and employment status).\\
 \midrule
-Discussion data & Contains forum activity data such as posts, responses, upvotes/downvotes, flags, and questions and answers associated with course content items\%\\
+Discussion data & Contains forum activity data such as posts, responses, upvotes/downvotes, flags, and questions and answers associated with course content items.\\
 \addlinespace
 \bottomrule
 \end{tabular}
@@ -71,10 +71,51 @@ Discussion data & Contains forum activity data such as posts, responses, upvotes
 \end{figure}
 
 
+While Coursera provides tools for creating Postgres databases in a docker container\footnote{The tools is called `courseraresearchexports` and can be found here: https://github.com/coursera/courseraresearchexports}, as we mentioned earlier, importing data for analysis remains to be a challenge for researchers with limited experience with relational databases. Moreover, such tools are usually not platform independent.\footnote{In an initial version of *crsra* based on Postgresql we had the problem of some team members not being able to set up the database properly on their PCs.}
+
+
+## The *crsra* Package
+
+
+The *crsra* package helps import and organize Coursera's research data exports into R. It also run some preliminary analysis on the data. In the following section, we introduce the package and provide instruction on how to import Coursera research data exports. To install this package, you will need to install *devtools*. Install the [devtools package](https://CRAN.R-project.org/package=devtools), available from CRAN. Then execute the following commands to install the *crsra* package 
+
+```{r eval=FALSE}
+library("devtools")
+devtools::install_github("jhudsl/crsra", build_vignettes = TRUE)
+```
+
+In order to import your data dump into R, first point your working directory to the directory that contains all the unzipped course folders. Then execute the command `crsra_import()`. If you are not pointing to the correct directory, you will receive a warning and the execution will be halted. Note that the data import may take some time if the course data is large and there are several courses in your working directory. Also note that by running the `crsra_import()` command, you import all tables for each individual course into R in a list called `all_tables`.
+
+For a list of all the tables in the data download, please click [here](https://github.com/jhudsl/crsra/blob/master/ListofTables.md). All tables can be called using `all_tables[["course_name"]][["table_name"]]`. For instance, if you like to call the table `peer_comments` in the course Regression Models, you can simply execulte `all_tables[["Regression Models"]][["peer_comments"]]`. To see a list of courses imported by the `crsra_import()` command check the variable `coursenames`. To see a list of all the tables check the variable `tablenames`.
+
+The package also includes a few other functions are added to the package in addition to the main `crsra_import()` function. A list of functions and their descriptions is provided in Table \ref{tab:functions}.
+
+
+\begin{table}
+\footnotesize
+\caption{Other functions in the *crsra* package}\
+\centering
+\label{tab:functions}
+\begin{tabular}{p{3cm}|p{7cm}}
+Function & Description \\
+\addlinespace
+\toprule
+\texttt{crsra\_membershares} & Returns a summary of the total number and the shares of users in each course broken down by factors such as roles, country, language, gender, employment status, education level, and student status.\\
+\midrule
+\texttt{crsra\_gradesummary} & Returns total grade summary or broken down by the factors mentioned above.\\
+\midrule
+\texttt{crsra\_progress} & Summarizes, for each course item, the total number and the share of users who stopped the course at that specific course item. The function ranks course items by their attrition.\\
+\midrule
+\texttt{crsra\_assessmentskips} & Users may "skip" reviewing a submission if there is a problem with it. This function categorizes skips by their type such as "inappropriate content", "plagiarism", etc. The function also returns list of mostly used words in peer comments.\\
+\midrule
+\texttt{crsra\_stimetofinish} & Calculates the time to finish a course for each user.\\
+\addlinespace
+\bottomrule
+\end{tabular}
+\end{table}
 
 
 
-While Coursera provides tools for creating Postgres databases in a docker container\footnote{The tools is called `courseraresearchexports` and can be found here: https://github.com/coursera/courseraresearchexports}, as we mentioned earlier, importing data for analysis remains to be a challenge for researchers with limited experience with relational databases. Moreover, such tools are usually not platform independent.\footnote{In an initial version of `crsra` based on Postgresql we had the problem of some team members not being able to set up the database properly on their PCs.}
 
 
 
@@ -84,42 +125,13 @@ While Coursera provides tools for creating Postgres databases in a docker contai
 
 
 
-## Importing Data Using crsra
 
-write about data from coursera's gitbook
+
+
+
+
 size of data
 examples of hopkins courses
-provide a list of tables that connect different students.
-
-
-Talk about the advantage of not having relational databses
-
-
-
-data can only be downloaded by "a single instructor to refine his/her own course or a research team at your institution (admins and data coordinators), to support broader online pedagogy initiatives"
-
-
-
-Research data exports are sets of CSV files, designed for use in relational database systems. You can choose from a list of data types to download. Data coordinators can also use a single hashed user ID in all data domains. Learn more about data types and hashed user IDs.
-
-To download export files:
-Access self-service exports
-Scroll to the “Research Data” section and choose the types of data you want to download (select all that apply)
-Type a “Purpose for requesting exports” (e.g. how you plan to use the data, what research questions you’re asking, who will work with the data, who you’ll share it with, etc.)
-Data coordinators: To use a single hashed user ID in all data domains, check the “Learner Identity Exposure” box
-Click Export
-Completed exports are displayed in the “Data Export History” section. Click Download to save the files.
-
-
-
-
-
-
-
-## crsra Package
-
-talk about the package
-
 
 
 ## Analysis of student behavior on Coursera
