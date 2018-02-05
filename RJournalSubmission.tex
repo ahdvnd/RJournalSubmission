@@ -158,7 +158,7 @@ command check the variable \texttt{coursenames}. To see a list of all
 the tables check the variable \texttt{tablenames}.
 
 To see the data import in use, we use the package on data from Johns
-Hopkins University Data Science Specialization on Coursera. This
+Hopkins University (JHU) Data Science Specialization on Coursera. This
 specialization, developed by Jeffrey Leek, Roger Peng, and Brian Caffo,
 consists of ten courses. There has been more than two million
 enrollments since the launch of this program in April 2014. The size of
@@ -206,14 +206,64 @@ Function & Description \\
 \midrule
 \texttt{crsra\_assessmentskips} & Users may "skip" reviewing a submission if there is a problem with it. This function categorizes skips by their type such as "inappropriate content", "plagiarism", etc. The function also returns list of mostly used words in peer comments.\\
 \midrule
-\texttt{crsra\_stimetofinish} & Calculates the time to finish a course for each user.\\
+\texttt{crsra\_timetofinish} & Calculates the time to finish a course for each user.\\
 \addlinespace
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{Analysis of student behavior on
-Coursera}\label{analysis-of-student-behavior-on-coursera}
+\subsection{use another example given the functions
+above}\label{use-another-example-given-the-functions-above}
+
+\subsection{A Preliminary Analysis of Student Behavior on
+Coursera}\label{a-preliminary-analysis-of-student-behavior-on-coursera}
+
+Understanding how students progress through an education program is
+critical for any educational planning and decision making
+\citep{king1972primary}. Models of student progress are needed in order
+to estimate the probability of a student completing a certain item in a
+course and predict the time required to finish a course. Furthermore,
+common measures of academic success and progres cannot be defined in the
+same way for MOOCs. For instance, as \cite{perna2014moving} states, we
+have limited knowledge on whether learners' progress through a MOOC
+should be measured in a sequential fashion or in a way that captures the
+flexibility and freedom in learning behavior that is unique to MOOCs.
+
+We have limited understanding of user progress in MOOCs. There are only
+a handful of studies on the subject of student pace, who completes
+classes, and learning sequence in MOOCs. \cite{perna2014moving} perform
+a descriptive analysis of student progress throught a set of 16 courses
+on Coursera. They find that most users accessed course content in the
+sequential order defined by the instructor of the course.
+\cite{ho2014harvardx} study 17 courses taught on EdX and find that most
+of the attrition in courses happen in the first week of courses (about
+50 percent attrition) and that the avergae percentage of learners who
+cease activity in the second week declines shaprty to 16 percent. Most
+of these studies are specific to a set of courses or platforms. Due to
+the many differences in the characteristics of MOOCs, any extrapolation
+of the results to MOOCs in general has to be done with caution.
+
+In the following section, we will investigate students' progress through
+the ten Data Science Specialization courses on Coursera provided by JHU.
+Using the \texttt{crsra\_timetofinish} function in the \emph{crsra}
+package, we can first investigate the time difference ebtween the first
+and last activities within a course for each student. This measure is
+only calculated for those who completed the courses. Figure
+\ref{figure:timetofinish} depicts the density function for time to
+finish for three of the courses in the specialization.
+
+\begin{Schunk}
+\begin{Sinput}
+TTF <- crsra_timetofinish()
+\end{Sinput}
+\end{Schunk}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.6]{timetofinish}
+    \caption{Density functions for time to finish defined as the time difference between the first and last activities across three courses}
+    \label{figure:timetofinish}
+\end{figure}
 
 \subsection{Discussion}\label{discussion}
 

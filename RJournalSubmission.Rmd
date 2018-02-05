@@ -20,6 +20,11 @@ preamble: >
 output: rticles::rjournal_article
 ---
 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE)
+```
+
 ## Introduction
 
 It is hard to pin down the time of the birth of the first Massive Open Online Course (MOOC).\footnote{Some have claimed Sesame Street as the first MOOC. Delaney Parrish, "Sesame Street was the original MOOC," *BROOKINGS NOW*, The Brookings Institution, June 18, 2015, https://www.brookings.edu/blog/brookings-now/2015/06/18/sesame-street-was-the-original-mooc/} But since the advent of more focused MOOCs pioneered by universities and platforms such as Coursera, Udacity, and edX, reserachers have tried to focus on studying MOOCs. There are fundamental differences between traditional education and MOOCs was large enough to attract reserachers to study students' behavior and outcomes. These differences are best reflected in the definition of MOOCs by \cite{mcauley2010mooc} that "[a]n online course with the option of free and open registration, a publicly shared curriculum, and open-ended outcomes which integrates social networking, accessible online resources ... and most significantly builds on the engagement of learners who self-organize their participation according to learning goals, prior knowledge and skills, and common interests."
@@ -89,7 +94,7 @@ In order to import your data dump into R, first point your working directory to 
 For a list of all the tables in the data download, please click [here](https://github.com/jhudsl/crsra/blob/master/ListofTables.md). All tables can be called using `all_tables[["course_name"]][["table_name"]]`. For instance, if you like to call the table `peer_comments` in the course Regression Models, you can simply execulte `all_tables[["Regression Models"]][["peer_comments"]]`. To see a list of courses imported by the `crsra_import()` command check the variable `coursenames`. To see a list of all the tables check the variable `tablenames`.
 
 
-To see the data import in use, we use the package on data from Johns Hopkins University Data Science Specialization on Coursera. This specialization, developed by Jeffrey Leek, Roger Peng, and Brian Caffo, consists of ten courses. There has been more than two million enrollments since the launch of this program in April 2014. The size of data on the students who took these ten courses since 2015 is around 18 gigabytes. We used the *crsra* package to import the data on all the courses and then to find the number of students who passed a specific course item (course item `67c1O`) in the course "Regression Models" and their average grade in a specific course.
+To see the data import in use, we use the package on data from Johns Hopkins University (JHU) Data Science Specialization on Coursera. This specialization, developed by Jeffrey Leek, Roger Peng, and Brian Caffo, consists of ten courses. There has been more than two million enrollments since the launch of this program in April 2014. The size of data on the students who took these ten courses since 2015 is around 18 gigabytes. We used the *crsra* package to import the data on all the courses and then to find the number of students who passed a specific course item (course item `67c1O`) in the course "Regression Models" and their average grade in a specific course.
 
 
 ```{r eval=FALSE}
@@ -126,7 +131,7 @@ Function & Description \\
 \midrule
 \texttt{crsra\_assessmentskips} & Users may "skip" reviewing a submission if there is a problem with it. This function categorizes skips by their type such as "inappropriate content", "plagiarism", etc. The function also returns list of mostly used words in peer comments.\\
 \midrule
-\texttt{crsra\_stimetofinish} & Calculates the time to finish a course for each user.\\
+\texttt{crsra\_timetofinish} & Calculates the time to finish a course for each user.\\
 \addlinespace
 \bottomrule
 \end{tabular}
@@ -138,28 +143,24 @@ Function & Description \\
 
 ## A Preliminary Analysis of Student Behavior on Coursera
 
+Understanding how students progress through an education program is critical for any educational planning and decision making \citep{king1972primary}. Models of student progress are needed in order to estimate the probability of a student completing a certain item in a course and predict the time required to finish a course. Furthermore, common measures of academic success and progres cannot be defined in the same way for MOOCs. For instance, as \cite{perna2014moving} states, we have limited knowledge on whether learners' progress through a MOOC should be measured in a sequential fashion or in a way that captures the flexibility and freedom in learning behavior that is unique to MOOCs.
 
+We have limited understanding of user progress in MOOCs. There are only a handful of studies on the subject of student pace, who completes classes, and learning sequence in MOOCs. \cite{perna2014moving} perform a descriptive analysis of student progress throught a set of 16 courses on Coursera. They find that most users accessed course content in the sequential order defined by the instructor of the course. \cite{ho2014harvardx} study 17 courses taught on EdX and find that most of the attrition in courses happen in the first week of courses (about 50 percent attrition) and that the avergae percentage of learners who cease activity in the second week declines shaprty to 16 percent. Most of these studies are specific to a set of courses or platforms. Due to the many differences in the characteristics of MOOCs, any extrapolation of the results to MOOCs in general has to be done with caution. 
 
+In the following section, we will investigate students' progress through the ten Data Science Specialization courses on Coursera provided by JHU. Using the `crsra_timetofinish` function in the *crsra* package, we can first investigate the time difference ebtween the first and last activities within a course for each student. Figure \ref{figure:timetofinish} depicts the density function for time to finish for three of the courses in the specialization. There are two interensting obserbvations from the figure. First, a majority of learners cease activity during the first few days of registration as is evident by the spike in the density function. Second, the density functions vary across courses. While for *Developing Data Products* and *Getting and Cleaning Data* a majority of students finish the courses in around 30 days, for *Data Science Capstone* a majority of students finish the course in 50 days. 
 
-From \cite{perna2014moving}
-Available research provides limited understanding of user progress through a MOOC beyond the first and last events: registra- tion and completion. Potential intermediary outcomes include viewing a lecture and posting to a discussion forum (MOOCS @ Edinburgh, 2013). 
+```{r eval=FALSE}
+TTF <- crsra_timetofinish() %>% 
+```
 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.5]{timetofinish}
+    \caption{Density functions for time to finish defined as the time difference between the first and last activities across three courses}
+    \label{figure:timetofinish}
+\end{figure}
 
-In their study of Harvard and MIT courses, Ho et al. (2014) consider whether a user posts to a discussion forum as well as the numbers of “clicks” (i.e., “the number of dis- crete actions a user takes in a course”; p. 26) and “active days” (i.e., “number of discrete days, demarcated in UTC time that a user engages in some type of course activity”; p. 26). Their study finds higher scores on these measures for users who “explored” or “com- pleted” a course than for those who only registered.
-
-
-User outcomes vary across courses (e.g., MOOCs @ Edinburgh, 2013). Yet, because of the many differences in the characteristics of available MOOCs, research to date provides few insights into how course characteristics contribute to varia- tions in user outcomes. Ho et al. (2014) observed that the 17 MOOCs in their study differed in terms of content, design, duration, instructor philosophy, learner expectations, video design and distribution, assessment, and criteria for certification. Even in four courses of similar duration (5 to 7 weeks), Grainger (2013) identified variations in course content as well as the number and length of videos, assessment type, number of teach- ing staff and teaching assistants, forum moderation, and use of social media.
-
-
-Establishing how students progress through an educational sys- tem is a prerequisite for educational planning and decision mak- ing (King, 1972). Modelers of education systems assume that to achieve any educational outcome, students must complete a series of steps. Examining the United Kingdom’s educational sys- tem, Stone (1970) and King (1972), for instance, built “concep- tually and algebraically simple” models that represent educational systems as “a set of branches through which students can flow” (Stone, 1970, p. 279). These models are designed to document the “movement of individuals between different parts of the sys- tem” (King, 1972, p. 53) and predict the likelihood that an indi- vidual will progress from one step to another. These predictions allow estimates of the likely human capital yield from a cohort entering an educational process and provide a baseline for exploring the events that lead some participants to become inac- tive and others to complete a course or program. Such informa- tion can be used to design courses and programs in ways that improve student outcomes.
-
-Identifying intermediary outcomes and milestones is a pre- requisite for understanding the forces that promote and limit a student’s progress toward completion of a course or degree pro- gram and identifying policies and practices that may improve desired outcomes. Because of the newness of MOOCs and com- petition between providers, there is not yet agreement on the most appropriate measures of academic progress through a MOOC. For instance, it is not known whether users’ progress through a MOOC should be measured in a sequential fashion (defined as participating in course modules in the order specified by the instructor) or in a way that captures the actions of users who take advantage of the “open” nature of MOOCs (and thus participate in a more sporadic or nonlinear fashion). Available research also does not reveal the intermediary outcomes that pre- dict completion of a MOOC.
-
-
-
-
-
-
+Next, we can look at how time to finish is different for groups with different student status. 
 
 
 
@@ -167,6 +168,12 @@ Identifying intermediary outcomes and milestones is a pre- requisite for underst
 
 
 
+
+
+
+
+
+<!-- rmarkdown::render("~/Google Drive/Research/Coursera/RJournalSubmission/RJournalSubmission.Rmd") -->
 
 
 ## Discussion
