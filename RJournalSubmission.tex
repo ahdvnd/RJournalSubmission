@@ -157,6 +157,33 @@ To see a list of courses imported by the \texttt{crsra\_import()}
 command check the variable \texttt{coursenames}. To see a list of all
 the tables check the variable \texttt{tablenames}.
 
+To see the data import in use, we use the package on data from Johns
+Hopkins University Data Science Specialization on Coursera. This
+specialization, developed by Jeffrey Leek, Roger Peng, and Brian Caffo,
+consists of ten courses. There has been more than two million
+enrollments since the launch of this program in April 2014. The size of
+data on the students who took these ten courses since 2015 is around 18
+gigabytes. We used the \emph{crsra} package to import the data on all
+the courses and then to find the number of students who passed a
+specific course item (course item \texttt{67c1O}) in the course
+``Regression Models'' and their average grade in a specific course.
+
+\begin{Schunk}
+\begin{Sinput}
+library(dplyr)
+
+all_tables[["Regression Models"]][["course_item_grades"]] %>%
+    dplyr::filter(course_item_id == "67c1O") %>% 
+    dplyr::filter(course_item_passing_state_id == 2) %>% 
+    dplyr::summarise(n = n(), grade = mean(course_item_grade_verified))
+
+## A tibble: 1 x 2
+##      n     grade
+##   <int>    <dbl>
+## 1  8640 0.9556052
+\end{Sinput}
+\end{Schunk}
+
 The package also includes a few other functions are added to the package
 in addition to the main \texttt{crsra\_import()} function. A list of
 functions and their descriptions is provided in Table
@@ -185,12 +212,8 @@ Function & Description \\
 \end{tabular}
 \end{table}
 
-size of data examples of hopkins courses
-
 \subsection{Analysis of student behavior on
 Coursera}\label{analysis-of-student-behavior-on-coursera}
-
-provide the analaysis here
 
 \subsection{Discussion}\label{discussion}
 

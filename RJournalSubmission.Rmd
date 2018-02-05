@@ -88,6 +88,24 @@ In order to import your data dump into R, first point your working directory to 
 
 For a list of all the tables in the data download, please click [here](https://github.com/jhudsl/crsra/blob/master/ListofTables.md). All tables can be called using `all_tables[["course_name"]][["table_name"]]`. For instance, if you like to call the table `peer_comments` in the course Regression Models, you can simply execulte `all_tables[["Regression Models"]][["peer_comments"]]`. To see a list of courses imported by the `crsra_import()` command check the variable `coursenames`. To see a list of all the tables check the variable `tablenames`.
 
+
+To see the data import in use, we use the package on data from Johns Hopkins University Data Science Specialization on Coursera. This specialization, developed by Jeffrey Leek, Roger Peng, and Brian Caffo, consists of ten courses. There has been more than two million enrollments since the launch of this program in April 2014. The size of data on the students who took these ten courses since 2015 is around 18 gigabytes. We used the *crsra* package to import the data on all the courses and then to find the number of students who passed a specific course item (course item `67c1O`) in the course "Regression Models" and their average grade in a specific course.
+
+
+```{r eval=FALSE}
+library(dplyr)
+
+all_tables[["Regression Models"]][["course_item_grades"]] %>%
+    dplyr::filter(course_item_id == "67c1O") %>% 
+    dplyr::filter(course_item_passing_state_id == 2) %>% 
+    dplyr::summarise(n = n(), grade = mean(course_item_grade_verified))
+
+## A tibble: 1 x 2
+##      n     grade
+##   <int>    <dbl>
+## 1  8640 0.9556052
+```
+
 The package also includes a few other functions are added to the package in addition to the main `crsra_import()` function. A list of functions and their descriptions is provided in Table \ref{tab:functions}.
 
 
@@ -115,6 +133,27 @@ Function & Description \\
 \end{table}
 
 
+## use another example given the functions above
+
+
+## A Preliminary Analysis of Student Behavior on Coursera
+
+
+
+
+From \cite{perna2014moving}
+Available research provides limited understanding of user progress through a MOOC beyond the first and last events: registra- tion and completion. Potential intermediary outcomes include viewing a lecture and posting to a discussion forum (MOOCS @ Edinburgh, 2013). 
+
+
+In their study of Harvard and MIT courses, Ho et al. (2014) consider whether a user posts to a discussion forum as well as the numbers of “clicks” (i.e., “the number of dis- crete actions a user takes in a course”; p. 26) and “active days” (i.e., “number of discrete days, demarcated in UTC time that a user engages in some type of course activity”; p. 26). Their study finds higher scores on these measures for users who “explored” or “com- pleted” a course than for those who only registered.
+
+
+User outcomes vary across courses (e.g., MOOCs @ Edinburgh, 2013). Yet, because of the many differences in the characteristics of available MOOCs, research to date provides few insights into how course characteristics contribute to varia- tions in user outcomes. Ho et al. (2014) observed that the 17 MOOCs in their study differed in terms of content, design, duration, instructor philosophy, learner expectations, video design and distribution, assessment, and criteria for certification. Even in four courses of similar duration (5 to 7 weeks), Grainger (2013) identified variations in course content as well as the number and length of videos, assessment type, number of teach- ing staff and teaching assistants, forum moderation, and use of social media.
+
+
+Establishing how students progress through an educational sys- tem is a prerequisite for educational planning and decision mak- ing (King, 1972). Modelers of education systems assume that to achieve any educational outcome, students must complete a series of steps. Examining the United Kingdom’s educational sys- tem, Stone (1970) and King (1972), for instance, built “concep- tually and algebraically simple” models that represent educational systems as “a set of branches through which students can flow” (Stone, 1970, p. 279). These models are designed to document the “movement of individuals between different parts of the sys- tem” (King, 1972, p. 53) and predict the likelihood that an indi- vidual will progress from one step to another. These predictions allow estimates of the likely human capital yield from a cohort entering an educational process and provide a baseline for exploring the events that lead some participants to become inac- tive and others to complete a course or program. Such informa- tion can be used to design courses and programs in ways that improve student outcomes.
+
+Identifying intermediary outcomes and milestones is a pre- requisite for understanding the forces that promote and limit a student’s progress toward completion of a course or degree pro- gram and identifying policies and practices that may improve desired outcomes. Because of the newness of MOOCs and com- petition between providers, there is not yet agreement on the most appropriate measures of academic progress through a MOOC. For instance, it is not known whether users’ progress through a MOOC should be measured in a sequential fashion (defined as participating in course modules in the order specified by the instructor) or in a way that captures the actions of users who take advantage of the “open” nature of MOOCs (and thus participate in a more sporadic or nonlinear fashion). Available research also does not reveal the intermediary outcomes that pre- dict completion of a MOOC.
 
 
 
@@ -128,15 +167,6 @@ Function & Description \\
 
 
 
-
-
-size of data
-examples of hopkins courses
-
-
-## Analysis of student behavior on Coursera
-
-provide the analaysis here
 
 
 ## Discussion
@@ -153,16 +183,6 @@ provide the analaysis here
 <!-- Introductory section which may include references in parentheses -->
 <!-- \citep{R}, or cite a reference such as \cite{R} in the text. -->
 
-<!-- ## Section title in sentence case -->
-
-<!-- This section may contain a figure such as Figure \ref{figure:rlogo}. -->
-
-<!-- \begin{figure}[htbp] -->
-<!--   \centering -->
-<!--   \includegraphics{Rlogo} -->
-<!--   \caption{The logo of R.} -->
-<!--   \label{figure:rlogo} -->
-<!-- \end{figure} -->
 
 <!-- ## Another section -->
 
