@@ -247,22 +247,49 @@ In the following section, we will investigate students' progress through
 the ten Data Science Specialization courses on Coursera provided by JHU.
 Using the \texttt{crsra\_timetofinish} function in the \emph{crsra}
 package, we can first investigate the time difference ebtween the first
-and last activities within a course for each student. This measure is
-only calculated for those who completed the courses. Figure
+and last activities within a course for each student. Time to finish is
+only calculated for those who finished the course. Figure
 \ref{figure:timetofinish} depicts the density function for time to
-finish for three of the courses in the specialization.
+finish for three of the courses in the specialization. Note that the
+density functions vary across courses. While for \emph{Developing Data
+Products} and \emph{Getting and Cleaning Data} a majority of students
+finish the courses in around 30 days, for \emph{Data Science Capstone} a
+majority of students finish the course in 50 days.
 
 \begin{Schunk}
 \begin{Sinput}
-TTF <- crsra_timetofinish()
+TTF <- crsra_timetofinish() %>% 
 \end{Sinput}
 \end{Schunk}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[scale=0.6]{timetofinish}
+    \includegraphics[scale=0.5]{timetofinish}
     \caption{Density functions for time to finish defined as the time difference between the first and last activities across three courses}
     \label{figure:timetofinish}
+\end{figure}
+
+In the table called \texttt{users}, Coursera provides a field for
+student status of the learner including full-time and par-time students
+and those who are not degree students. We can look at how time to finish
+is different for groups with different student status. Figure
+\ref{figure:stustatus} reports this for the course \emph{Getting and
+Cleaning Data} and shows that part-time students take longer to finish
+the course.
+
+\begin{Schunk}
+\begin{Sinput}
+TTF.Status <- TTF[["Getting and Cleaning Data"]] %>% 
+  dplyr::left_join(all_tables[["Getting and Cleaning Data"]][["users"]], by = "jhu_user_id", `copy`=TRUE) %>% 
+  dplyr::filter(!is.na(student_status))
+\end{Sinput}
+\end{Schunk}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.5]{stustatus}
+    \caption{Density functions for time to finish across groups with different student statuses through the course Getting and Cleaning Data}
+    \label{figure:stustatus}
 \end{figure}
 
 \subsection{Discussion}\label{discussion}

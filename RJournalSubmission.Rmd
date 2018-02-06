@@ -147,7 +147,7 @@ Understanding how students progress through an education program is critical for
 
 We have limited understanding of user progress in MOOCs. There are only a handful of studies on the subject of student pace, who completes classes, and learning sequence in MOOCs. \cite{perna2014moving} perform a descriptive analysis of student progress throught a set of 16 courses on Coursera. They find that most users accessed course content in the sequential order defined by the instructor of the course. \cite{ho2014harvardx} study 17 courses taught on EdX and find that most of the attrition in courses happen in the first week of courses (about 50 percent attrition) and that the avergae percentage of learners who cease activity in the second week declines shaprty to 16 percent. Most of these studies are specific to a set of courses or platforms. Due to the many differences in the characteristics of MOOCs, any extrapolation of the results to MOOCs in general has to be done with caution. 
 
-In the following section, we will investigate students' progress through the ten Data Science Specialization courses on Coursera provided by JHU. Using the `crsra_timetofinish` function in the *crsra* package, we can first investigate the time difference ebtween the first and last activities within a course for each student. Figure \ref{figure:timetofinish} depicts the density function for time to finish for three of the courses in the specialization. There are two interensting obserbvations from the figure. First, a majority of learners cease activity during the first few days of registration as is evident by the spike in the density function. Second, the density functions vary across courses. While for *Developing Data Products* and *Getting and Cleaning Data* a majority of students finish the courses in around 30 days, for *Data Science Capstone* a majority of students finish the course in 50 days. 
+In the following section, we will investigate students' progress through the ten Data Science Specialization courses on Coursera provided by JHU. Using the `crsra_timetofinish` function in the *crsra* package, we can first investigate the time difference ebtween the first and last activities within a course for each student. Time to finish is only calculated for those who finished the course. Figure \ref{figure:timetofinish} depicts the density function for time to finish for three of the courses in the specialization. Note that the density functions vary across courses. While for *Developing Data Products* and *Getting and Cleaning Data* a majority of students finish the courses in around 30 days, for *Data Science Capstone* a majority of students finish the course in 50 days.
 
 ```{r eval=FALSE}
 TTF <- crsra_timetofinish() %>% 
@@ -160,12 +160,21 @@ TTF <- crsra_timetofinish() %>%
     \label{figure:timetofinish}
 \end{figure}
 
-Next, we can look at how time to finish is different for groups with different student status. 
+In the table called `users`, Coursera provides a field for student status of the learner including full-time and par-time students and those who are not degree students. We can look at how time to finish is different for groups with different student status. Figure \ref{figure:stustatus} reports this for the course *Getting and Cleaning Data* and shows that part-time students take longer to finish the course.
 
 
+```{r, eval=FALSE}
+TTF.Status <- TTF[["Getting and Cleaning Data"]] %>% 
+  dplyr::left_join(all_tables[["Getting and Cleaning Data"]][["users"]], by = "jhu_user_id", `copy`=TRUE) %>% 
+  dplyr::filter(!is.na(student_status))
+```
 
-
-
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.5]{stustatus}
+    \caption{Density functions for time to finish across groups with different student statuses through the course Getting and Cleaning Data}
+    \label{figure:stustatus}
+\end{figure}
 
 
 
