@@ -147,7 +147,7 @@ Understanding how students progress through an education program is critical for
 
 We have limited understanding of user progress in MOOCs. There are only a handful of studies on the subject of student pace, who completes classes, and learning sequence in MOOCs. \cite{perna2014moving} perform a descriptive analysis of student progress throught a set of 16 courses on Coursera. They find that most users accessed course content in the sequential order defined by the instructor of the course. \cite{ho2014harvardx} study 17 courses taught on EdX and find that most of the attrition in courses happen in the first week of course activity (about 50 percent attrition) and that the avergae percentage of learners who cease activity in the second week declines shaprty to 16 percent. Most of these studies are specific to a set of courses or platforms. Due to the many differences in the characteristics of MOOCs, any extrapolation of the results to MOOCs in general has to be done with caution. 
 
-In the following section, we will investigate students' progress through the ten Data Science Specialization courses on Coursera provided by JHU. Using the `crsra_timetofinish` function in the *crsra* package, we can first investigate the time difference ebtween the first and last activities within a course for each student. Time to finish is only calculated for those who finished the course. Figure \ref{figure:timetofinish} depicts the density function for time to finish for three of the courses in the specialization. Note that the density functions vary across courses. While for *Developing Data Products* and *Getting and Cleaning Data* a majority of students finish the courses in around 30 days, for *Data Science Capstone* a majority of students finish the course in 50 days.
+In the following section, we will investigate students' progress through the ten Data Science Specialization courses on Coursera provided by JHU. Using the `crsra_timetofinish` function in the *crsra* package, we can first investigate the time difference ebtween the first and last activities within a course for each student. Time to finish is only calculated for those who finished the course. Figure \ref{figure:timetofinish} depicts the density plot for time to finish for three of the courses in the specialization. Note that the density plot vary across courses. While for *Developing Data Products* and *Getting and Cleaning Data* a majority of students finish the courses in around 30 days, for *Data Science Capstone* a majority of students finish the course in 50 days.
 
 ```{r eval=FALSE}
 TTF <- crsra_timetofinish()
@@ -156,7 +156,7 @@ TTF <- crsra_timetofinish()
 \begin{figure}[htbp]
     \centering
     \includegraphics[scale=0.5]{timetofinish}
-    \caption{Density functions for time to finish defined as the time difference between the first and last activities across three courses}
+    \caption{Density plots for time to finish defined as the time difference between the first and last activities across three courses}
     \label{figure:timetofinish}
 \end{figure}
 
@@ -173,12 +173,12 @@ TTF.Status <- TTF[["Getting and Cleaning Data"]] %>%
 \begin{figure}[htbp]
     \centering
     \includegraphics[scale=0.5]{stustatus}
-    \caption{Density functions for time to finish across groups with different student statuses through the course Getting and Cleaning Data}
+    \caption{Density plots for time to finish across groups with different student statuses through the course Getting and Cleaning Data}
     \label{figure:stustatus}
 \end{figure}
 
 
-Our next step is to understand student progress in the courses. One of the factors that distinguishes MOOCs from traditional classrooms is the flexibility in advancing through the course. While in traditional education the class length, pace, and completion dates are determined by instructor of the course, in MOOCs it is the student who, for the most part, has the freedom to choose these factors. This is evident by looking at the time gap between completing each item in the course. We can first look at how many course items students pass in the first week of course activity. One obvious but yet interesting finding is large variations across students. For instance, if we look at the course *Getting and Cleaning Data*, we can use the following code to find the number of course items completed in the first week of course activity. The course has roughly 40 items including lectures and assignments. The variable `nweek1` captures the number of passed course items in the first week of course activity, calculated as one week after the first activity in the class. The density function in Figure \ref{figure:passeditems} represents the variations across students. For a majority of learners, the number of passed course items in the first week is two. However, the number of those who finish mor than 10 items in the first course is significant. Also interesting is the double-peak shape of the density function. It is intersting to see that there are more people who complete 12 course items in the first week than there are who complete 7 course items. This indicates an intersting structural change in students' pace between course items 7 and 12. 
+Our next step is to understand student progress in the courses. One of the factors that distinguishes MOOCs from traditional classrooms is the flexibility in advancing through the course. While in traditional education the class length, pace, and completion dates are determined by instructor of the course, in MOOCs it is the student who, for the most part, has the freedom to choose these factors. This is evident by looking at the time gap between completing each item in the course. We can first look at how many course items students pass in the first week of course activity. One obvious but yet interesting finding is large variations across students. For instance, if we look at the course *Getting and Cleaning Data*, we can use the following code to find the number of course items completed in the first week of course activity. The course has roughly 40 items including lectures and assignments. The variable `nweek1` captures the number of passed course items in the first week of course activity, calculated as one week after the first activity in the class. The density plot in Figure \ref{figure:passeditems} represents the variations across students. For a majority of learners, the number of passed course items in the first week is two. However, the number of those who finish mor than 10 items in the first course is significant. Also interesting is the double-peak shape of the density plot It is intersting to see that there are more people who complete 12 course items in the first week than there are who complete 7 course items. This indicates an intersting structural change in students' pace between course items 7 and 12. 
 
 
 ```{r eval=FALSE}
@@ -192,7 +192,7 @@ passed.items <- all_tables[["Getting and Cleaning Data"]][["course_progress"]] %
 \begin{figure}[htbp]
     \centering
     \includegraphics[scale=0.5]{passeditems}
-    \caption{Density functions for the number of passed items in the first week of course activity for Getting and Cleaning Data}
+    \caption{Density plots for the number of passed items in the first week of course activity for Getting and Cleaning Data}
     \label{figure:passeditems}
 \end{figure}
 
@@ -225,7 +225,7 @@ Figure \ref{figure:sampleprogress} shows student progress in the course Getting 
     \label{figure:sampleprogress}
 \end{figure}
 
-For the average student, we can look at is the average gap between sessions for the first and the second half of the course. We can then calculate how much the average session gap changes from the first half to the second. Across our sample of students who registered for the course, the average change in session gap from the second half to the second half is positive and equal to 132 percent. In other words the gap between session more than doubles from the first half of the course to the second half. Figure \ref{figure:timegapchange} shows the density function of this statistic across our sample. The long righ tail in the Figure supports the fact that most students follow the slowing-down pattern. However, the Figure also shows that there are students who speed up during the second half of the semester.
+For the average student, we can look at is the average gap between sessions for the first and the second half of the course. We can then calculate how much the average session gap changes from the first half to the second. Across our sample of students who registered for the course, the average change in session gap from the second half to the second half is positive and equal to 132 percent. In other words the gap between session more than doubles from the first half of the course to the second half. Figure \ref{figure:timegapchange} shows the density plot of this statistic across our sample. The long righ tail in the Figure supports the fact that most students follow the slowing-down pattern. However, the Figure also shows that there are students who speed up during the second half of the semester.
 
 
 \begin{figure}[htbp]
@@ -281,9 +281,28 @@ Paid for the course? & Yes: 36\\
 \end{tabular}
 \end{table}
 
+Last exercise in our analysis is to study how Courera's change in policy from a pay-per-course business model to a subscription model changed students' progression throughout the course. In October 30, 2016, Coursera introduced a new payment system through which they allowed students to purchase access to all content in a specialization on a month-by-month or annual basis. As a result, student would only pay for the amount of time they need to learn the material. This system replaced the existing model where students would pay up front for each course regardless of how long it took them to finish the course. An interesting exercise then is whether the switch to this system where payments is tied to the length of time it takes students to finish the class make students finish faster. The following code calculates the average number of courses passed in the first week of activity for the two groups: those who enrolled in the course before October 30, 2016 and those who enrolled after. Our hypothesis is that those who pay monthly are more likely to finish more items in the first week than those who pay a fixed price.
+
+```{r eval=FALSE}
+passed.items.policy <- passed.items %>%
+    dplyr::left_join(all_tables[["Getting and Cleaning Data"]][["course_memberships"]], 
+                     by = "jhu_user_id", `copy`=TRUE) %>%
+    dplyr::filter(!is.na(course_membership_ts)) %>%
+    dplyr::mutate(subscription = ifelse(course_membership_ts < "2016-11-01 00:00:00", 
+                                        "before", "after")) %>%
+    dplyr::group_by(subscription) %>%
+    dplyr::summarise(subnw = mean(nweek1))
+```
+
+The results suggest that those who enrolled before the policy change on average passed three courses less than the group who enrolled after (9 versus 12). Figure \ref{figure:policy} shows the density plot of the number of passed items in the first week of activity for the two groups. This comparison, however, has a caveat: there is some selection bias since those who enrolled before and those who enrolled after October 2016 may be fundamentally different.
 
 
-
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.5]{policy}
+    \caption{Density plots for the number of passed items in the first week of course activity for Getting and Cleaning Data for those who enrolled in the course before October 30, 2016 and those who enrolled after}
+    \label{figure:policy}
+\end{figure}
 
 
 ## Discussion

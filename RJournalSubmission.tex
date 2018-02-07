@@ -463,6 +463,52 @@ Paid for the course? & Yes: 36\\
 \end{tabular}
 \end{table}
 
+Last exercise in our analysis is to study how Courera's change in policy
+from a pay-per-course business model to a subscription model changed
+students' progression throughout the course. In October 30, 2016,
+Coursera introduced a new payment system through which they allowed
+students to purchase access to all content in a specialization on a
+month-by-month or annual basis. As a result, student would only pay for
+the amount of time they need to learn the material. This system replaced
+the existing model where students would pay up front for each course
+regardless of how long it took them to finish the course. An interesting
+exercise then is whether the switch to this system where payments is
+tied to the length of time it takes students to finish the class make
+students finish faster. The following code calculates the average number
+of courses passed in the first week of activity for the two groups:
+those who enrolled in the course before October 30, 2016 and those who
+enrolled after. Our hypothesis is that those who pay monthly are more
+likely to finish more items in the first week than those who pay a fixed
+price.
+
+\begin{Schunk}
+\begin{Sinput}
+passed.items.policy <- passed.items %>%
+    dplyr::left_join(all_tables[["Getting and Cleaning Data"]][["course_memberships"]], 
+                     by = "jhu_user_id", `copy`=TRUE) %>%
+    dplyr::filter(!is.na(course_membership_ts)) %>%
+    dplyr::mutate(subscription = ifelse(course_membership_ts < "2016-11-01 00:00:00", 
+                                        "before", "after")) %>%
+    dplyr::group_by(subscription) %>%
+    dplyr::summarise(subnw = mean(nweek1))
+\end{Sinput}
+\end{Schunk}
+
+The results suggest that those who enrolled before the policy change on
+average passed three courses less than the group who enrolled after (9
+versus 12). Figure \ref{figure:policy} shows the density function of the
+number of passed items in the first week of activity for the two groups.
+This comparison, however, has a caveat: there is some selection bias
+since those who enrolled before and those who enrolled after October
+2016 may be fundamentally different.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.5]{policy}
+    \caption{Density functions for the number of passed items in the first week of course activity for Getting and Cleaning Data for those who enrolled in the course before October 30, 2016 and those who enrolled after}
+    \label{figure:policy}
+\end{figure}
+
 \subsection{Discussion}\label{discussion}
 
 \bibliography{RJreferences}
