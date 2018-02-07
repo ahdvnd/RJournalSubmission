@@ -1,5 +1,5 @@
 ---
-title: A package for Cleaning and Analyzing Coursera OnDemand Data
+title: 'crsra: A package for Cleaning and Analyzing Coursera Research Export Data'
 author:
   - name: Aboozar Hadavand
     affiliation: Bloomberg School of Public Health, Johns Hopkins University
@@ -145,12 +145,12 @@ Function & Description \\
 
 Understanding how students progress through an education program is critical for any educational planning and decision making \citep{king1972primary}. Models of student progress are needed in order to estimate the probability of a student completing a certain item in a course and predict the time required to finish a course. Furthermore, common measures of academic success and progres cannot be defined in the same way for MOOCs. For instance, as \cite{perna2014moving} states, we have limited knowledge on whether learners' progress through a MOOC should be measured in a sequential fashion or in a way that captures the flexibility and freedom in learning behavior that is unique to MOOCs.
 
-We have limited understanding of user progress in MOOCs. There are only a handful of studies on the subject of student pace, who completes classes, and learning sequence in MOOCs. \cite{perna2014moving} perform a descriptive analysis of student progress throught a set of 16 courses on Coursera. They find that most users accessed course content in the sequential order defined by the instructor of the course. \cite{ho2014harvardx} study 17 courses taught on EdX and find that most of the attrition in courses happen in the first week of courses (about 50 percent attrition) and that the avergae percentage of learners who cease activity in the second week declines shaprty to 16 percent. Most of these studies are specific to a set of courses or platforms. Due to the many differences in the characteristics of MOOCs, any extrapolation of the results to MOOCs in general has to be done with caution. 
+We have limited understanding of user progress in MOOCs. There are only a handful of studies on the subject of student pace, who completes classes, and learning sequence in MOOCs. \cite{perna2014moving} perform a descriptive analysis of student progress throught a set of 16 courses on Coursera. They find that most users accessed course content in the sequential order defined by the instructor of the course. \cite{ho2014harvardx} study 17 courses taught on EdX and find that most of the attrition in courses happen in the first week of course activity (about 50 percent attrition) and that the avergae percentage of learners who cease activity in the second week declines shaprty to 16 percent. Most of these studies are specific to a set of courses or platforms. Due to the many differences in the characteristics of MOOCs, any extrapolation of the results to MOOCs in general has to be done with caution. 
 
 In the following section, we will investigate students' progress through the ten Data Science Specialization courses on Coursera provided by JHU. Using the `crsra_timetofinish` function in the *crsra* package, we can first investigate the time difference ebtween the first and last activities within a course for each student. Time to finish is only calculated for those who finished the course. Figure \ref{figure:timetofinish} depicts the density function for time to finish for three of the courses in the specialization. Note that the density functions vary across courses. While for *Developing Data Products* and *Getting and Cleaning Data* a majority of students finish the courses in around 30 days, for *Data Science Capstone* a majority of students finish the course in 50 days.
 
 ```{r eval=FALSE}
-TTF <- crsra_timetofinish() %>% 
+TTF <- crsra_timetofinish()
 ```
 
 \begin{figure}[htbp]
@@ -165,8 +165,9 @@ In the table called `users`, Coursera provides a field for student status of the
 
 ```{r, eval=FALSE}
 TTF.Status <- TTF[["Getting and Cleaning Data"]] %>% 
-  dplyr::left_join(all_tables[["Getting and Cleaning Data"]][["users"]], by = "jhu_user_id", `copy`=TRUE) %>% 
-  dplyr::filter(!is.na(student_status))
+    dplyr::left_join(all_tables[["Getting and Cleaning Data"]][["users"]], 
+                     by = "jhu_user_id", `copy`=TRUE) %>% 
+    dplyr::filter(!is.na(student_status))
 ```
 
 \begin{figure}[htbp]
@@ -177,12 +178,112 @@ TTF.Status <- TTF[["Getting and Cleaning Data"]] %>%
 \end{figure}
 
 
+Our next step is to understand student progress in the courses. One of the factors that distinguishes MOOCs from traditional classrooms is the flexibility in advancing through the course. While in traditional education the class length, pace, and completion dates are determined by instructor of the course, in MOOCs it is the student who, for the most part, has the freedom to choose these factors. This is evident by looking at the time gap between completing each item in the course. We can first look at how many course items students pass in the first week of course activity. One obvious but yet interesting finding is large variations across students. For instance, if we look at the course *Getting and Cleaning Data*, we can use the following code to find the number of course items completed in the first week of course activity. The course has roughly 40 items including lectures and assignments. The variable `nweek1` captures the number of passed course items in the first week of course activity, calculated as one week after the first activity in the class. The density function in Figure \ref{figure:passeditems} represents the variations across students. For a majority of learners, the number of passed course items in the first week is two. However, the number of those who finish mor than 10 items in the first course is significant. Also interesting is the double-peak shape of the density function. It is intersting to see that there are more people who complete 12 course items in the first week than there are who complete 7 course items. This indicates an intersting structural change in students' pace between course items 7 and 12. 
+
+
+```{r eval=FALSE}
+passed.items <- all_tables[["Getting and Cleaning Data"]][["course_progress"]] %>%
+    dplyr::group_by(jhu_user_id) %>%
+    # 604800 is the number of seconds in a week
+    dplyr::filter(course_progress_ts <= min(course_progress_ts) + 604800) %>% 
+    dplyr::summarise(nweek1 = n())
+```
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.5]{passeditems}
+    \caption{Density functions for the number of passed items in the first week of course activity for Getting and Cleaning Data}
+    \label{figure:passeditems}
+\end{figure}
+
+A third interesting variable to look at when studying students' progress in MOOCs is the time gaps between each session. In this exercise, we looked at the time lapsed between each two consecutive course items for each learner throughout the course *Getting and Cleaning Data*. We used the following code for the analysis. Note that we have ranked course itmes based on the timestamp when student passes them and not their natural order defined by the course instuctor.
+
+```{r eval=FALSE}
+gaps <- all_tables[["Getting and Cleaning Data"]][["course_progress"]] %>%
+    # 2 is an indicator that the course item is completed
+    dplyr::filter(course_progress_state_type_id == 2) %>% 
+    dplyr::group_by(jhu_user_id, course_item_id) %>%
+    # This is for keeping only the latest event for each course item
+    dplyr::filter(course_progress_ts == max(course_progress_ts)) %>%
+    dplyr::ungroup() %>%
+    dplyr::arrange(jhu_user_id, course_progress_ts) %>%
+    dplyr::group_by(jhu_user_id) %>%
+    # This is for converting the time gap to hours
+    dplyr::mutate(time.dif = as.numeric(course_progress_ts - 
+                                            lag(course_progress_ts))/3600) %>%
+    dplyr::filter(!is.na(time.dif)) %>% 
+    dplyr::filter(time.dif != Inf | time.dif != -Inf)
+```
+
+Figure \ref{figure:sampleprogress} shows student progress in the course Getting and Cleaning Data for three sample students. The vertical axis is the gap between two consecutive sessions in hours. These three students are chosen intentionally to show three different learning paths. Panel A shows progress for a student with short gaps between sessions for the first half of the course and longer gaps towards the end. For future reference we call this pattern "slowing down" pattern. This pattern is typical of many students in this course. Panel B shows progress for a student with short gaps between sessions in the begining and the end of the course and longer gaps in the middle. Students in this group are not as common as the first group. Finally, Panel C shows progress for a student with no clear pattern in their progress throughout the course. Only a small group of students follow this pattern in our data.  
+
+
+\begin{figure}[htbp] 
+    \centering
+    \includegraphics[scale=0.4]{sampleprogress}
+    \caption{Student progress through the course Getting and Cleaning Data for three sample students. The vertical axis shows the time gap between completing an item and the next item in hours.}
+    \label{figure:sampleprogress}
+\end{figure}
+
+For the average student, we can look at is the average gap between sessions for the first and the second half of the course. We can then calculate how much the average session gap changes from the first half to the second. Across our sample of students who registered for the course, the average change in session gap from the second half to the second half is positive and equal to 132 percent. In other words the gap between session more than doubles from the first half of the course to the second half. Figure \ref{figure:timegapchange} shows the density function of this statistic across our sample. The long righ tail in the Figure supports the fact that most students follow the slowing-down pattern. However, the Figure also shows that there are students who speed up during the second half of the semester.
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.5]{timegapchange}
+    \caption{Percentage change in time gaps in course progress between the first and the second half}
+    \label{figure:timegapchange}
+\end{figure}
+
+We can do this analysis for some subgroups of our sample. Some of the most interesting categories are gender, educational attainment, and whether the learner paid for taking the course. The variable `was_payment` in the table `users_courses__certificate_payments` captures whether the learner has ever paid for the eligibility of a course certificate, enrolled in the course, and has not made a refund. This purchase could be a "single payment" for the course or a "bulk payment" for a specialization that contains the course. The following code is used for the analysis of payers and non-payers and the results for all categories are shown in Table \ref{tab:timecats}.
+
+
+```{r eval=FALSE}
+gaps.payment <- gaps %>%
+    dplyr::group_by(jhu_user_id) %>%
+    dplyr::summarise(avgtime = mean(time.dif)) %>%
+    dplyr::inner_join(all_tables[["Getting and Cleaning Data"]][["course_grades"]],
+                      by = "jhu_user_id", `copy`=TRUE) %>%
+    dplyr::filter(course_passing_state_id %in% c(1, 2)) %>%
+    dplyr::left_join(all_tables[["Getting and Cleaning Data"]][["users_courses__certificate_payments"]],
+                     by = "jhu_user_id", `copy`=TRUE) %>%
+    dplyr::filter(!is.na(was_payment)) %>%
+    dplyr::group_by(was_payment) %>%
+    dplyr::summarise(avggap=mean(avgtime))
+```
+
+
+\begin{table}
+\footnotesize
+\caption{Gaps between sessions for different subgropus of learners in Getting and Cleaning Data Course}\
+\centering
+\label{tab:timecats}
+\begin{tabular}{p{3cm}|p{4cm}}
+Categories & Avergae gap in hours \\
+\addlinespace
+\toprule
+Gender & Female: 39\\
+       & Male: 36\\
+\midrule
+Educational Attainment & Less than high school: 152\\
+           & High school diploma: 39\\
+           & College (no degree): 39\\
+           & Associate degree: 23\\
+           & Bachelor's degree: 32\\
+           & Master's degree: 38\\
+           & Professional degree: 22\\
+           & Doctoral degree: 34\\
+\midrule
+Paid for the course? & Yes: 36\\
+           & No: 39\\
+\addlinespace
+\bottomrule
+\end{tabular}
+\end{table}
 
 
 
 
-
-<!-- rmarkdown::render("~/Google Drive/Research/Coursera/RJournalSubmission/RJournalSubmission.Rmd") -->
 
 
 ## Discussion
