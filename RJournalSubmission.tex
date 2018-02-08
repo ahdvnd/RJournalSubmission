@@ -7,46 +7,44 @@ Export Data}
 
 \abstract{%
 Due to the fundamental differences between traditional education and
-Massive Open Online Courses (MOOCs), research on MOOCs is critical to
-understand current and future trends in education. Although research in
-the field has rapidly grown in recent years, one of the main challenges
-facing researchers remains to be the complexity and messiness of the
-data. Therefore, it is imperative to provide tools that pave the way for
-more research on the new subject of MOOCs. This paper introduces a
-package called \pkg{crsra} based on the statistical software R to help
-clean and analyze massive loads of data from the Coursera MOOCs. The
-advantages of the package are as follows: a) faster loading of data for
-analysis, b) an efficient method for combining data from multiple
-courses and even across institutions, and c) provision of a set of
-functions for analyzing student behaviors.
+Massive Open Online Courses (MOOCs) and the ever-increasing popularity
+of MOOCs more research is needed to understand current and future trends
+in education. Although research in the field has rapidly grown in recent
+years, one of the main challenges facing researchers remains to be the
+complexity and messiness of the data. Therefore, it is imperative to
+provide tools that pave the way for more research on the new subject of
+MOOCs. This paper introduces a package called \pkg{crsra} based on the
+statistical software R to help clean and analyze massive loads of data
+provided by Coursera. The advantages of the package are as follows: a)
+faster loading and organizing data for analysis, b) an efficient method
+for combining data from multiple courses and even across institutions,
+and c) provision of a set of functions for analyzing student behaviors.
 }
 
 \subsection{Introduction}\label{introduction}
 
-It is hard to pin down the time of the birth of the first Massive Open
-Online Course
-(MOOC).\footnote{Some have claimed Sesame Street as the first MOOC. Delaney Parrish, "Sesame Street was the original MOOC," *BROOKINGS NOW*, The Brookings Institution, June 18, 2015, \url{https://www.brookings.edu/blog/brookings-now/2015/06/18/sesame-street-was-the-original-mooc/}}
-But since the advent of more focused MOOCs pioneered by universities and
-platforms such as Coursera, Udacity, and edX, researchers have tried to
-focus on studying MOOCs. The existence of fundamental differences
-between traditional education and MOOCs attracted a new wave of studies
-on students' behavior and outcomes in the online world. These
-differences are best reflected in the definition of MOOCs by
-\cite{mcauley2010mooc} that ``{[}a{]}n online course with the option of
-free and open registration, a publicly shared curriculum, and open-ended
-outcomes which integrates social networking, accessible online resources
-\ldots{} and most significantly builds on the engagement of learners who
-self-organize their participation according to learning goals, prior
-knowledge and skills, and common interests.''
+Research on online education dates back the rise in popularity of MOOCs
+provided by universities and platforms such as Coursera, Udacity, and
+edX.\footnote{It is hard to pin down the time of the birth of the first Massive Open Online Course (MOOC). Some have claimed Sesame Street as the first MOOC. Delaney Parrish, "Sesame Street was the original MOOC," BROOKINGS NOW, The Brookings Institution, June 18, 2015, \url{https://www.brookings.edu/blog/brookings-now/2015/06/18/sesame-street-was-the-original-mooc/}}
+The existence of fundamental differences between traditional education
+and MOOCs attracted a new wave of studies on students' behavior and
+outcomes in the online world. These differences are best reflected in
+the definition of MOOCs by \cite{mcauley2010mooc} that ``{[}a{]}n online
+course with the option of free and open registration, a publicly shared
+curriculum, and open-ended outcomes which integrates social networking,
+accessible online resources \ldots{} and most significantly builds on
+the engagement of learners who self-organize their participation
+according to learning goals, prior knowledge and skills, and common
+interests.'' Such differences require further research on MOOCs.
 
 Research on MOOCs few years with more data being accumulated and
 collected. \cite{bozkurt2017trends} studied literature published on
 MOOCs through 2015 and found that the number of articles published on
 the subject increased from 1 in 2008 to 170 in 2015. More research is
 needed to fully understand the effectiveness, reach, limits, and the
-potential of MOOCs. However, one of the main challenges in studying
-MOOCs remains to be data. Data is not usually publicly available since
-it is owned by private MOOC providers and there are concerns about the
+potential of MOOCs. However, the main challenges in studying MOOCs
+remains to be data. Data on MOOCs are not usually publicly available
+since it is owned by private providers and there are concerns about the
 privacy of students. More importantly, as \cite{lopez2017google} point
 out, the size and complexity of MOOC data is an overwhelming challenge
 to many researchers. Therefore, it is imperative to provide tools that
@@ -62,35 +60,36 @@ and c) provision of a set of functions for analyzing student behaviors.
 
 \subsection{Coursera Research Data}\label{coursera-research-data}
 
-Coursera is one of the leading providers of MOOCs that launched in
-January 2012. In fact, with over 25 million learners, Coursera is the
-most prominent provider in the world being followed by EdX, the MOOC
-provider that was a result of a collaboration between Harvard University
-and MIT, with over 10 million users. Coursera has over 150 university
-partners from 29 countries and offers a total of 2000+ courses from
-computer science to philosophy \citep{coursera}. Also, Coursera offers
-180+ specialization, Coursera's credential system, and four fully online
-Masters degrees. Courses include recorded video lectures, graded
-assignment, quizzes, and discussion forums.
+Coursera is one of the leading providers of MOOCs that was launched in
+January 2012. With over 25 million learners, Coursera is the most
+popular provider in the world being followed by EdX, the MOOC provider
+that was a result of a collaboration between Harvard University and MIT,
+with over 10 million users. Coursera has over 150 university partners
+from 29 countries and offers a total of 2000+ courses from computer
+science to philosophy \citep{coursera}. Besides, Coursera offers 180+
+specialization, Coursera's credential system, and four fully online
+Masters degrees. A typical course on Coursera includes recorded video
+lectures, graded assignment, quizzes, and discussion forums.
 
-Since the early years of the platform, Coursera has encouraged
+Since the early years of the company, Coursera has encouraged
 researchers to analyze students' data and has facilitated the use of the
 data and the platform for A/B testing. Starting November 2015 Coursera
 introduced a dashboard for self-service data exports. Through this tool,
-partner institutions and instructors can download data for a single
+partner institutions and instructors could download data for a single
 course or all courses associated with the institution. Research data
 exports are sets of CSV files and are designed for use in relational
 database systems. One of the advantages of the data is the existence of
 a single \emph{hashed user ID} for each student. This user ID is
 consistent for learners across all courses offered by an individual
 institution and allows for connecting learner grades and progress across
-a course.
+courses.
 
-There are five types of research data export for each course. The Table
-\ref{tab:datatypes} summarizes these five types. This set of data is
-written in roughly 100 tables: some containing course information and
-content, some containing students' information, progress, and outcomes,
-and some containing forum data. Figure \ref{figure:datatables} shows
+There are five types of research data export for each course. Table
+\ref{tab:datatypes} summarizes these five types. The data are written in
+roughly 100 tables containing information such as course content,
+students' demographic data, progress, and outcomes, and forum data.
+Figure \ref{figure:datatables} shows different types of research data
+exports provided by Coursera.
 
 \begin{table}
 \footnotesize
@@ -103,9 +102,9 @@ Data Type & Description \\
 \toprule
 Assessment submission data & Assessment submissions of quizzes, peer review, and programming assignments by learners.\\
 \midrule
-Course grade data & Contains the highest grade achieved by each learner on each required assessment as well as the timestamp of the learner's highest-scoring submission. This table also includes each learner's overall grade in the course.\\
+Course grade data & Contains the highest grade achieved by each learner on each required assessment as well as the time stamp of the learner's highest-scoring submission. This table also includes each learner's overall grade in the course.\\
 \midrule
-Course progress data & Contains data documenting the timestamp for when the learner interacted with each piece of course content and the timestamps for when items were opened, completed, reopened, reattempted, etc.\\
+Course progress data & Contains data documenting the time stamp for when the learner interacted with each piece of course content and the time stamps for when items were opened, completed, reopened, reattempted, etc.\\
 \midrule
 Demographic data & Contains the following information for all enrolled learners: general geographical data (based on IP address), browser language preference, and information for learners who completed their learner profile responses or participated in Coursera's platform-wide demographic survey (including age, gender, education level, and employment status).\\
 \midrule
@@ -128,17 +127,17 @@ container,\footnote{The tool is called `courseraresearchexports` and can be foun
 as we mentioned earlier, importing data for analysis remains to be a
 challenge for researchers with limited experience with relational
 databases. Moreover, such tools are usually not platform
-independent.\footnote{In an initial version of \pkg{crsra} based on PostgreSQL we had the problem of some team members not being able to set up the database correctly on their PCs.}
+independent.\footnote{In an initial version of \pkg{crsra} based on PostgreSQL, we had the problem of some team members not being able to set up the database correctly on their PCs.}
 
 \subsection{\texorpdfstring{The \pkg{crsra}
 Package}{The  Package}}\label{the-package}
 
 The \pkg{crsra} package helps import and organize Coursera's research
-data exports into R. It also run some preliminary analysis on the data.
+data exports into R. It also runs some preliminary analysis on the data.
 In the following section, we introduce the package and provide
 instruction on how to import Coursera research data exports. To install
 this package, you will need to install \CRANpkg{devtools}
-\citep{devtools}. Then execute the following commands to install the
+\citep{devtools}, then execute the following commands to install the
 \pkg{crsra} package
 
 \begin{Schunk}
@@ -158,7 +157,7 @@ directory. Also note that by running the \texttt{crsra\_import()}
 command, you import all tables for each course into R in a list called
 \texttt{all\_tables}.\footnote{For a list of all the tables in the data download, please go to the URL \url{https://github.com/jhudsl/crsra/blob/master/ListofTables.md}}
 
-All tables can be called using
+Tables can be called using
 \texttt{all\_tables{[}{[}"course\_name"{]}{]}{[}{[}"table\_name"{]}{]}}.
 For instance, if you like to call the table \texttt{peer\_comments} in
 the course Regression Models, you can simply execute
@@ -173,10 +172,10 @@ specialization, developed by Jeffrey Leek, Roger Peng, and Brian Caffo,
 consists of ten courses. There have been more than two million
 enrollments since the launch of this program in April 2014. The size of
 data on the students who took these ten courses since 2015 is around 18
-gigabytes. We used the \pkg{crsra} package to import the data on all the
-courses and then to find the number of students who passed a specific
-course item (course item \texttt{67c1O}) in the course ``Regression
-Models'' and their average grade in a particular course.
+gigabytes. In the following example, we use the \pkg{crsra} package to
+import a Coursera data dump at our disposal on all the courses and to
+find the number of students who passed a specific course item (course
+item \texttt{67c1O}) in the course ``Regression Models.''
 
 \begin{Schunk}
 \begin{Sinput}
@@ -185,23 +184,22 @@ library(dplyr)
 all_tables[["Regression Models"]][["course_item_grades"]] %>%
     dplyr::filter(course_item_id == "67c1O") %>% 
     dplyr::filter(course_item_passing_state_id == 2) %>% 
-    dplyr::summarise(n = n(), grade = mean(course_item_grade_verified))
+    dplyr::summarise(n = n())
 
-## A tibble: 1 x 2
-##      n     grade
-##   <int>    <dbl>
-## 1  8640 0.9556052
+# A tibble: 1 x 1
+#      n
+#   <int>
+# 1  8640
 \end{Sinput}
 \end{Schunk}
 
-The package also includes a few other functions are added to the package
-in addition to the main \texttt{crsra\_import()} function. A list of
-functions and their descriptions is provided in Table
-\ref{tab:functions}.
+The package also includes a few other functions in addition to the main
+\texttt{crsra\_import()} function. A list of functions and their
+descriptions is provided in Table \ref{tab:functions}.
 
 \begin{table}
 \footnotesize
-\caption{Other functions in the \pkg{crsra} package}\
+\caption{Some of the functions in the \pkg{crsra} package}\
 \centering
 \label{tab:functions}
 \begin{tabular}{p{3cm}|p{7cm}}
@@ -210,11 +208,11 @@ Function & Description \\
 \toprule
 \texttt{crsra\_membershares} & Returns a summary of the total number and the shares of users in each course broken down by factors such as roles, country, language, gender, employment status, education level, and student status.\\
 \midrule
-\texttt{crsra\_gradesummary} & Returns total grade summary or broken down by the factors mentioned above.\\
+\texttt{crsra\_gradesummary} & Returns total grade summary broken down by the factors mentioned above.\\
 \midrule
-\texttt{crsra\_progress} & Summarizes, for each course item, the total number and the share of users who stopped the course at that specific course item. The function ranks course items by their attrition.\\
+\texttt{crsra\_progress} & Summarizes, for each course item, the total number and the share of users who ceased activity at that specific course item. The function ranks course items by their attrition.\\
 \midrule
-\texttt{crsra\_assessmentskips} & Users may "skip" reviewing a submission if there is a problem with it. This function categorizes skips by their type such as "inappropriate content", "plagiarism", etc. The function also returns list of most used words in peer comments.\\
+\texttt{crsra\_assessmentskips} & Users may "skip" reviewing a peer-assessed submission if there is a problem with it. This function categorizes skips by their type such as "inappropriate content", "plagiarism", etc. The function also returns a word cloud appeared in peer comments as to why they skipped the submission.\\
 \midrule
 \texttt{crsra\_timetofinish} & Calculates the time to finish a course for each user.\\
 \addlinespace
@@ -222,15 +220,15 @@ Function & Description \\
 \end{tabular}
 \end{table}
 
-We can use the function \texttt{crsra\_gradesummary()} to calculate the
-average student grade for the courses in the data import. By using the
-argument \texttt{groupby} we can calculate average grades for different
-groups of the students by factors such as gender, education, student
-status, employment status, and country. For instance, the following
-analysis returns the average overall course grade for male and female
-learners in the course \emph{The Data Scientist's Toolbox}. The result
-points to the fact that female learners' grades are on average 6 points
-lower on a 100 scale than male learners' grades.
+We can also use the function \texttt{crsra\_gradesummary()} to calculate
+the average student grade for the courses in the data import. By using
+the argument \texttt{groupby} we can calculate average grades for
+different learner subgroups based on gender, education, student status,
+employment status, and country. For instance, the following analysis
+returns the average overall course grade for male and female learners in
+the course \emph{The Data Scientist's Toolbox}. The results show that
+female learners' grades are on average 6 points lower on a 100 scale
+than male learners' grades.
 
 \begin{Schunk}
 \begin{Sinput}
@@ -260,20 +258,18 @@ a MOOC should be measured in a sequential fashion or in a way that
 captures the flexibility and freedom in learning behavior that is unique
 to MOOCs.
 
-We have a limited understanding of user progress in MOOCs. There are
-only a handful of studies on the subject of student pace, who completes
-classes, and learning sequence in MOOCs. \cite{perna2014moving} perform
-a descriptive analysis of student progress through a set of 16 courses
-on Coursera. They find that most users accessed course content in the
-sequential order defined by the instructor of the course.
-\cite{ho2014harvardx} study 17 courses taught on EdX and find that most
-of the attrition in courses happen in the first week of course activity
-(about 50 percent attrition) and that the average percentage of learners
-who cease activity in the second week declines sharply to 16 percent.
-Most of these studies are specific to a set of courses or platforms. Due
-to the many differences in the characteristics of MOOCs, any
-extrapolation of the results to MOOCs, in general, has to be done with
-caution.
+There are only a handful of studies on students' progress and outcomes
+in MOOCs. \cite{perna2014moving} perform a descriptive analysis of
+student progress through a set of 16 courses on Coursera. They found
+that most users accessed course content in the sequential order defined
+by the instructor of the course. \cite{ho2014harvardx} study 17 courses
+taught on EdX and found that most of the attrition in online courses
+happen in the first week of course activity (about 50 percent attrition)
+and that the average percentage of learners who cease activity in the
+second week declines sharply to 16 percent. Most of these studies are
+specific to a set of courses or platforms. Due to the many differences
+in the characteristics of MOOCs, any extrapolation of the results to
+MOOCs in general has to be done with caution.
 
 In the following section, we will investigate students' progress through
 the ten Data Science Specialization courses on Coursera provided by JHU.
@@ -321,7 +317,7 @@ TTF.Status <- TTF[["Getting and Cleaning Data"]] %>%
 \begin{figure}[htbp]
     \centering
     \includegraphics[scale=0.5]{stustatus}
-    \caption{Density plots for time to finish across groups with different student statuses through the course Getting and Cleaning Data}
+    \caption{Density plots for time to finish for learners with different student statuses in the course Getting and Cleaning Data}
     \label{figure:stustatus}
 \end{figure}
 
@@ -330,25 +326,25 @@ the factors that distinguish MOOCs from traditional classrooms is the
 flexibility in advancing through the course. While in traditional
 education the class length, pace, and completion dates are determined by
 the instructor of the course, in MOOCs it is the student who, for the
-most part, has the freedom to choose these factors. This observation is
-evident by looking at the time gap between completing each item in the
-course. We can first look at how many course items students pass in the
-first week of course activity. One obvious but yet interesting finding
-is large variations across students. For instance, if we look at the
-course \emph{Getting and Cleaning Data}, we can use the following code
-to find the number of course items completed in the first week of course
-activity. The course has roughly 40 items including lectures and
-assignments. The variable \texttt{nweek1} captures the number of passed
-course items in the first week of course activity, calculated as one
-week after the first activity in the class. The density plot in Figure
+most part, has the freedom to choose these factors. We can then look at
+how many course items students pass in the first week of course
+activity. One obvious but yet interesting finding is large variations
+across students. For instance, if we look at the course \emph{Getting
+and Cleaning Data}, we can use the following code to find the number of
+course items completed in the first week of course activity. The course
+has roughly 40 items including lectures and assignments. The variable
+\texttt{nweek1} captures the number of passed course items in the first
+week of course activity, calculated as one week after a student's first
+activity in the class. The density plot in Figure
 \ref{figure:passeditems} represents the variations across students. For
 a majority of learners, the number of passed course items in the first
 week is two. However, the number of those who finish more than ten items
 in the first course is significant. Also interesting is the double-peak
-shape of the density plot It is interesting to see that there are more
-people who complete twelve course items in the first week than there are
-who complete seven course items. This indicates an interesting
-structural change in students' pace between course items 7 and 12.
+shape of the density plot. It is interesting to see that there are more
+people who stop after completing twelve course items in the first week
+than there are who stop after completing seven course items. This
+indicates an interesting structural change in students' pace between
+course items 7 and 12.
 
 \begin{Schunk}
 \begin{Sinput}
@@ -363,7 +359,7 @@ passed.items <- all_tables[["Getting and Cleaning Data"]][["course_progress"]] %
 \begin{figure}[htbp]
     \centering
     \includegraphics[scale=0.5]{passeditems}
-    \caption{Density plots for the number of passed items in the first week of course activity for Getting and Cleaning Data}
+    \caption{Density plot for the number of passed items in the first week of course activity for the course Getting and Cleaning Data}
     \label{figure:passeditems}
 \end{figure}
 
@@ -373,7 +369,7 @@ looked at the time lapsed between each two consecutive course items for
 each learner throughout the course \emph{Getting and Cleaning Data}. We
 used the following code for the analysis. Note that we have ranked
 course items based on the time stamp when a student passes them and not
-their natural order defined by the course instructor.
+based on their natural order defined by the course instructor.
 
 \begin{Schunk}
 \begin{Sinput}
@@ -400,14 +396,13 @@ is the gap between two consecutive sessions in hours. These three
 students are chosen intentionally to show three different learning
 paths. Panel A shows progress for a student with short gaps between
 sessions for the first half of the course and longer gaps towards the
-end. For future reference we call this pattern ``slowing down'' pattern.
-This pattern is typical of many students in this course. Panel B shows
-progress for a student with short gaps between sessions in the beginning
-and the end of the course and longer gaps in the middle. Students in
-this group are not as common as the first group. Finally, Panel C shows
-progress for a student with no apparent pattern in their progress
-throughout the course. Only a small group of students follow this
-pattern in our data.
+end. We call this pattern ``slowing down'' pattern. This pattern is
+typical of many students in this course. Panel B shows progress for a
+student with short gaps between sessions in the beginning and the end of
+the course and longer gaps in the middle. Students in this group are not
+as common as the first group. Finally, Panel C shows progress for a
+student with no apparent pattern in their progress throughout the
+course. Only a small group of students follow this pattern in our data.
 
 \begin{figure}[htbp] 
     \centering
@@ -416,34 +411,33 @@ pattern in our data.
     \label{figure:sampleprogress}
 \end{figure}
 
-For the average student, we can look at is the average gap between
-sessions for the first and the second half of the course. We can then
-calculate how much the average session gap changes from the first half
-to the second. Across our sample of students who registered for the
-course, the average change in session gap from the second half to the
-second half is positive and equal to 132 percent. In other words, the
-gap between session more than doubles from the first half of the course
-to the second half. Figure \ref{figure:timegapchange} shows the density
-plot of this statistic across our sample. The long right tail in the
-Figure supports the fact that most students follow the slowing-down
-pattern. However, the Figure also shows that there are students who
-speed up during the second half of the semester.
+Let us look at the average gap between sessions for the first and the
+second half of the course. We can then calculate how much the average
+session gap changes from the first half to the second. Across our sample
+of students who registered for the course, the average change in session
+gap from the second half to the second half is positive and equal to 132
+percent. In other words, the gap between session more than doubles from
+the first half of the course to the second half. Figure
+\ref{figure:timegapchange} shows the density plot of this statistic
+across our sample. The long right tail in the Figure supports the fact
+that most students follow the slowing-down pattern. However, the Figure
+also shows that there are students who speed up during the second half
+of the semester.
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[scale=0.5]{timegapchange}
-    \caption{Percentage change in time gaps in course progress between the first and the second half}
+    \caption{Percentage change in time gaps in course progress between the first and the second half of the course Getting and Cleaning Data}
     \label{figure:timegapchange}
 \end{figure}
 
-We can do this analysis for some subgroups of our sample. Some of the
-most interesting categories are gender, educational attainment, and
+We can do a similar analysis for some subgroups of our sample. Some of
+the most interesting categories are gender, educational attainment, and
 whether the learner paid for taking the course. The variable
 \texttt{was\_payment} in the table
 \texttt{users\_courses\_\_certificate\_payments} captures whether the
-learner has ever paid for the eligibility of a course certificate,
-enrolled in the course, and has not made a refund. This purchase could
-be a ``single payment'' for the course or a ``bulk payment'' for a
+learner has ever paid for a course certificate. This purchase could be a
+``single payment'' for the course or a ``bulk payment'' for a
 specialization that contains the course. The following code is used for
 the analysis of payers and non-payers and the results for all categories
 are shown in Table \ref{tab:timecats}.
@@ -467,7 +461,7 @@ gaps.payment <- gaps %>%
 
 \begin{table}
 \footnotesize
-\caption{Gaps between sessions for different subgroups of learners in Getting and Cleaning Data Course}\
+\caption{Gaps between sessions for different subgroups of learners in the course Getting and Cleaning Data Course}\
 \centering
 \label{tab:timecats}
 \begin{tabular}{p{3cm}|p{4cm}}
@@ -498,17 +492,18 @@ policy from a pay-per-course business model to a subscription model
 changed students' progression throughout the course. On October 30,
 2016, Coursera introduced a new payment system through which they
 allowed students to purchase access to all content in a specialization
-on a month-by-month or annual basis. As a result, the student would only
-pay for the amount of time they need to learn the material. This system
-replaced the existing model where students would pay up front for each
-course regardless of how long it took them to finish the course. A
-question to ask is whether the switch to this system where payments are
-tied to the length of time it takes students to complete the class make
-students finish faster. The following code calculates the average number
-of courses passed in the first week of activity for the two groups:
-those who enrolled in the course before October 30, 2016, and those who
-joined after. We hypothesize that those who pay monthly are more likely
-to finish more items in the first week than those who pay a fixed price.
+on a month-by-month or annual basis \citep{coursera2016}. As a result,
+the student would only pay for the amount of time they need to learn the
+material. This system replaced the existing model where students would
+pay up front for each course regardless of how long it took them to
+finish the course. A question to ask is whether the switch to this
+system where payments are tied to the length of time it takes students
+to complete the class speeds up learning paces. The following code
+calculates the average number of course items passed in the first week
+of activity for the two groups: those who enrolled in the course before
+October 30, 2016, and those who joined after. We hypothesize that those
+who pay monthly are more likely to finish more items in the first week
+than those who pay a fixed price.
 
 \begin{Schunk}
 \begin{Sinput}
@@ -542,24 +537,23 @@ since those who enrolled before, and those who registered after October
 
 The \pkg{crsra} package provides tools for cleaning and analysis of
 Coursera's research data exports. Our motivation for the development of
-the package was initially to analyze student progress using Johns
-Hopkins University Data Science Specialization data. The size and
-messiness of data were our main challenges. In this regard, we felt the
-need for a tool that imports the data into R, cleans the data, and
-provides some preliminary analysis of the courses. We, later on, decided
-to make the tool available to all the researchers who use Coursera's
-research data.
+the package was initially to analyze student progress using JHU Data
+Science Specialization data. The size and messiness of data were our
+main challenges. In this regard, we felt the need for a tool that
+imports the data into R, cleans the data, and provides some analysis of
+the courses. We, later on, decided to make the tool available to all
+researchers who use Coursera's research data.
 
 Because MOOCs are new, analyzing students' behaviors on MOOCs are
 essential. One of the main differences between MOOCs and traditional
-college classrooms is how students progress throughout MOOCs. While the
+college classrooms is how students progress through MOOCs. While the
 order and length of course content and the pace at which they are taught
 are chosen by the instructor in classrooms, in MOOCs, it is the student
 who determines when and how to learn the material. We, therefore, used
-the \pkg{crsra} package to analyze student progress and pace in one of
-our courses called \emph{Getting and Cleaning Data}. We hope the
-analysis provided in this paper will pave the way for future studies on
-student behaviors on MOOCs.
+the \pkg{crsra} package to analyze student progress and pace in one of a
+sample of courses offered by JHU. We hope the package and the analysis
+provided in this paper will pave the way for future studies on student
+behaviors on MOOCs.
 
 \bibliography{RJreferences}
 
