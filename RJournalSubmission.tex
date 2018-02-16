@@ -116,7 +116,7 @@ Discussion data & Contains forum activity data such as posts, responses, upvotes
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[scale=0.5]{datatables}
+    \includegraphics[width=\textwidth]{datatables}
     \caption{The major relationships between table groups, with minor connections omitted (Source: Coursera)}
     \label{figure:datatables}
 \end{figure}
@@ -138,7 +138,7 @@ In the following section, we introduce the package and provide
 instruction on how to import Coursera research data exports. To install
 this package, you will need to install \CRANpkg{devtools}
 \citep{devtools}, then execute the following commands to install the
-\pkg{crsra} package
+\pkg{crsra} package.
 
 \begin{Schunk}
 \begin{Sinput}
@@ -181,7 +181,9 @@ item \texttt{67c1O}) in the course ``Regression Models.''
 \begin{Sinput}
 library(dplyr)
 
-all_tables[["Regression Models"]][["course_item_grades"]] %>%
+all_tables %>% 
+    .[["Regression Models"]] %>% 
+    .[["course_item_grades"]] %>%
     dplyr::filter(course_item_id == "67c1O") %>% 
     dplyr::filter(course_item_passing_state_id == 2) %>% 
     dplyr::summarise(n = n())
@@ -232,7 +234,8 @@ than male learners' grades.
 
 \begin{Schunk}
 \begin{Sinput}
-crsra_gradesummary(groupby = "gender")[["The Data Scientist’s Toolbox"]]
+crsra_gradesummary(groupby = "gender") %>% 
+    .[["The Data Scientist’s Toolbox"]]
 
 #Note that maximum grade possible is 1.
 # A tibble: 2 x 2
@@ -307,7 +310,8 @@ the course.
 
 \begin{Schunk}
 \begin{Sinput}
-TTF.Status <- TTF[["Getting and Cleaning Data"]] %>% 
+TTF.Status <- TTF %>% 
+    .[["Getting and Cleaning Data"]] %>% 
     dplyr::left_join(all_tables[["Getting and Cleaning Data"]][["users"]], 
                      by = "jhu_user_id", `copy`=TRUE) %>% 
     dplyr::filter(!is.na(student_status))
@@ -348,7 +352,9 @@ course items 7 and 12.
 
 \begin{Schunk}
 \begin{Sinput}
-passed.items <- all_tables[["Getting and Cleaning Data"]][["course_progress"]] %>%
+passed.items <- all_tables %>% 
+    .[["Getting and Cleaning Data"]] %>% 
+    .[["course_progress"]] %>%
     dplyr::group_by(jhu_user_id) %>%
     # 604800 is the number of seconds in a week
     dplyr::filter(course_progress_ts <= min(course_progress_ts) + 604800) %>% 
@@ -373,7 +379,9 @@ based on their natural order defined by the course instructor.
 
 \begin{Schunk}
 \begin{Sinput}
-gaps <- all_tables[["Getting and Cleaning Data"]][["course_progress"]] %>%
+gaps <- all_tables %>% 
+    .[["Getting and Cleaning Data"]] %>% 
+    .[["course_progress"]] %>%
     # 2 is an indicator that the course item is completed
     dplyr::filter(course_progress_state_type_id == 2) %>% 
     dplyr::group_by(jhu_user_id, course_item_id) %>%

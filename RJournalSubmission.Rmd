@@ -75,7 +75,7 @@ Discussion data & Contains forum activity data such as posts, responses, upvotes
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[scale=0.5]{datatables}
+    \includegraphics[width=\textwidth]{datatables}
     \caption{The major relationships between table groups, with minor connections omitted (Source: Coursera)}
     \label{figure:datatables}
 \end{figure}
@@ -87,7 +87,7 @@ While Coursera provides tools for creating PostgreSQL databases in a docker cont
 ## The \pkg{crsra} Package
 
 
-The \pkg{crsra} package helps import and organize Coursera's research data exports into R. It also runs some preliminary analysis on the data. In the following section, we introduce the package and provide instruction on how to import Coursera research data exports. To install this package, you will need to install \CRANpkg{devtools} \citep{devtools}, then execute the following commands to install the \pkg{crsra} package 
+The \pkg{crsra} package helps import and organize Coursera's research data exports into R. It also runs some preliminary analysis on the data. In the following section, we introduce the package and provide instruction on how to import Coursera research data exports. To install this package, you will need to install \CRANpkg{devtools} \citep{devtools}, then execute the following commands to install the \pkg{crsra} package.
 
 ```{r eval=FALSE}
 library("devtools")
@@ -105,7 +105,9 @@ To see the data import in use, we use the package on data from Johns Hopkins Uni
 ```{r eval=FALSE}
 library(dplyr)
 
-all_tables[["Regression Models"]][["course_item_grades"]] %>%
+all_tables %>% 
+    .[["Regression Models"]] %>% 
+    .[["course_item_grades"]] %>%
     dplyr::filter(course_item_id == "67c1O") %>% 
     dplyr::filter(course_item_passing_state_id == 2) %>% 
     dplyr::summarise(n = n())
@@ -145,7 +147,8 @@ Function & Description \\
 We can also use the function `crsra_gradesummary()` to calculate the average student grade for the courses in the data import. By using the argument `groupby` we can calculate average grades for different learner subgroups based on gender, education, student status, employment status, and country. For instance, the following analysis returns the average overall course grade for male and female learners in the course *The Data Scientist's Toolbox*. The results show that female learners' grades are on average 6 points lower on a 100 scale than male learners' grades.
 
 ```{r eval=FALSE}
-crsra_gradesummary(groupby = "gender")[["The Data Scientist’s Toolbox"]]
+crsra_gradesummary(groupby = "gender") %>% 
+    .[["The Data Scientist’s Toolbox"]]
 
 #Note that maximum grade possible is 1.
 # A tibble: 2 x 2
@@ -179,7 +182,8 @@ In the table called `users`, Coursera provides a field for student status of the
 
 
 ```{r, eval=FALSE}
-TTF.Status <- TTF[["Getting and Cleaning Data"]] %>% 
+TTF.Status <- TTF %>% 
+    .[["Getting and Cleaning Data"]] %>% 
     dplyr::left_join(all_tables[["Getting and Cleaning Data"]][["users"]], 
                      by = "jhu_user_id", `copy`=TRUE) %>% 
     dplyr::filter(!is.na(student_status))
@@ -197,7 +201,9 @@ Our next step is to understand student progress in the courses. One of the facto
 
 
 ```{r eval=FALSE}
-passed.items <- all_tables[["Getting and Cleaning Data"]][["course_progress"]] %>%
+passed.items <- all_tables %>% 
+    .[["Getting and Cleaning Data"]] %>% 
+    .[["course_progress"]] %>%
     dplyr::group_by(jhu_user_id) %>%
     # 604800 is the number of seconds in a week
     dplyr::filter(course_progress_ts <= min(course_progress_ts) + 604800) %>% 
@@ -214,7 +220,9 @@ passed.items <- all_tables[["Getting and Cleaning Data"]][["course_progress"]] %
 A third interesting variable to look at when studying students' progress in MOOCs is the time gaps between each session. In this exercise, we looked at the time lapsed between each two consecutive course items for each learner throughout the course *Getting and Cleaning Data*. We used the following code for the analysis. Note that we have ranked course items based on the time stamp when a student passes them and not based on their natural order defined by the course instructor.
 
 ```{r eval=FALSE}
-gaps <- all_tables[["Getting and Cleaning Data"]][["course_progress"]] %>%
+gaps <- all_tables %>% 
+    .[["Getting and Cleaning Data"]] %>% 
+    .[["course_progress"]] %>%
     # 2 is an indicator that the course item is completed
     dplyr::filter(course_progress_state_type_id == 2) %>% 
     dplyr::group_by(jhu_user_id, course_item_id) %>%
