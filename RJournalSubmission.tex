@@ -23,53 +23,32 @@ and c) provision of a set of functions for analyzing student behaviors.
 
 \subsection{Introduction}\label{introduction}
 
-Research on online education dates back the rise in popularity of MOOCs
-provided by universities and platforms such as Coursera, Udacity, and
-edX.\footnote{It is hard to pin down the time of the birth of the first Massive Open Online Course (MOOC). Some have claimed Sesame Street as the first MOOC. Delaney Parrish, "Sesame Street was the original MOOC," BROOKINGS NOW, The Brookings Institution, June 18, 2015, \url{https://www.brookings.edu/blog/brookings-now/2015/06/18/sesame-street-was-the-original-mooc/}}
-The existence of fundamental differences between traditional education
-and MOOCs attracted a new wave of studies on students' behavior and
-outcomes in the online world. These differences are best reflected in
-the definition of MOOCs by \cite{mcauley2010mooc} that ``{[}a{]}n online
-course with the option of free and open registration, a publicly shared
-curriculum, and open-ended outcomes which integrates social networking,
-accessible online resources \ldots{} and most significantly builds on
-the engagement of learners who self-organize their participation
-according to learning goals, prior knowledge and skills, and common
-interests.'' Such differences require further research on MOOCs.
-
-Research on MOOCs few years with more data being accumulated and
-collected. \cite{bozkurt2017trends} studied literature published on
-MOOCs through 2015 and found that the number of articles published on
-the subject increased from 1 in 2008 to 170 in 2015. More research is
-needed to fully understand the effectiveness, reach, limits, and the
-potential of MOOCs. However, the main challenges in studying MOOCs
-remains to be data. Data on MOOCs are not usually publicly available
-since it is owned by private providers and there are concerns about the
-privacy of students. More importantly, as \cite{lopez2017google} point
-out, the size and complexity of MOOC data is an overwhelming challenge
-to many researchers. Therefore, it is imperative to provide tools that
-pave the way for more research on the new subject of MOOCs.
+Research on Massive Open Online Courses (MOOCs) is young.
+\cite{bozkurt2017trends} studied literature published on MOOCs through
+2015 and found that the number of articles published on the subject
+increased from 1 in 2008 to 170 in 2015. More research is needed to
+fully understand the effectiveness, reach, limits, and the potential of
+MOOCs. However, the main challenges in studying MOOCs remains to be
+data. Data on MOOCs are not usually publicly available since it is owned
+by private providers and there are concerns about the privacy of
+students. More importantly, as \cite{lopez2017google} point out, the
+size and complexity of MOOC data is an overwhelming challenge to many
+researchers. Therefore, it is imperative to provide tools that pave the
+way for more research on the new subject of MOOCs.
 
 This paper introduces a package called \pkg{crsra} \citep{crsra} based
 on the statistical software R to help clean and analyze massive loads of
-data from the Coursera MOOCs. The advantages of the package are as
-follows: a) faster loading of data for analysis, b) efficient method for
-combining data from multiple courses and even across
-institutions,\footnote{This is important since although MOOC researchers have access to thousands of students in their sample, few studies benefit from data across multiple courses and institutions. Such analysis helps draw more robust conclusions about student behaviors \citep{reich2015rebooting}.}
-and c) provision of a set of functions for analyzing student behaviors.
-
-\subsection{Coursera Research Data}\label{coursera-research-data}
-
-Coursera is one of the leading providers of MOOCs that was launched in
-January 2012. With over 25 million learners, Coursera is the most
-popular provider in the world being followed by EdX, the MOOC provider
-that was a result of a collaboration between Harvard University and MIT,
-with over 10 million users. Coursera has over 150 university partners
-from 29 countries and offers a total of 2000+ courses from computer
-science to philosophy \citep{coursera}. Besides, Coursera offers 180+
-specialization, Coursera's credential system, and four fully online
-Masters degrees. A typical course on Coursera includes recorded video
-lectures, graded assignment, quizzes, and discussion forums.
+data from the Coursera MOOCs. Coursera is one of the leading providers
+of MOOCs and was launched in January 2012. With over 25 million
+learners, Coursera is the most popular provider in the world being
+followed by EdX, the MOOC provider that was a result of a collaboration
+between Harvard University and MIT, with over 10 million users. Coursera
+has over 150 university partners from 29 countries and offers a total of
+2000+ courses from computer science to philosophy \citep{coursera}.
+Besides, Coursera offers 180+ specialization, Coursera's credential
+system, and four fully online Masters degrees. A typical course on
+Coursera includes recorded video lectures, graded assignment, quizzes,
+and discussion forums.
 
 Since the early years of the company, Coursera has encouraged
 researchers to analyze students' data and has facilitated the use of the
@@ -83,6 +62,14 @@ a single \emph{hashed user ID} for each student. This user ID is
 consistent for learners across all courses offered by an individual
 institution and allows for connecting learner grades and progress across
 courses.
+
+The advantages of the package are as follows: a) faster loading of data
+for analysis, b) efficient method for combining data from multiple
+courses and even across
+institutions,\footnote{This is important since although MOOC researchers have access to thousands of students in their sample, few studies benefit from data across multiple courses and institutions. Such analysis helps draw more robust conclusions about student behaviors \citep{reich2015rebooting}.}
+and c) provision of a set of functions for analyzing student behaviors.
+
+\subsection{Coursera Research Data}\label{coursera-research-data}
 
 There are five types of research data export for each course. Table
 \ref{tab:datatypes} summarizes these five types. The data are written in
@@ -249,6 +236,16 @@ crsra_gradesummary(groupby = "gender") %>%
 \subsection{A Preliminary Analysis of Student Behavior on
 Coursera}\label{a-preliminary-analysis-of-student-behavior-on-coursera}
 
+The existence of fundamental differences between traditional education
+and MOOCs has attracted a new wave of studies on students' behavior and
+outcomes in the online world. These differences are best reflected in
+the definition of MOOCs by \cite{mcauley2010mooc} that ``{[}a{]}n online
+course with the option of free and open registration, a publicly shared
+curriculum, and open-ended outcomes which integrates social networking,
+accessible online resources \ldots{} and most significantly builds on
+the engagement of learners who self-organize their participation
+according to learning goals, prior knowledge and skills, and common
+interests.'' Such differences require further research on MOOCs.
 Understanding how students progress through an education program is
 critical for any educational planning and decision making
 \citep{king1972primary}. Models of student progress are needed to
