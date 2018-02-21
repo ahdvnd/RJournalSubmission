@@ -136,12 +136,14 @@ devtools::install_github("jhudsl/crsra", build_vignettes = TRUE)
 
 To import your data dump into R, first, point your working directory to
 the directory that contains all the unzipped course folders. Then
-execute the command \texttt{crsra\_import()}. If you are not pointing to
-the correct directory, you will receive a warning, and the execution
-will be halted. Note that the data import may take some time if the
-course data is large and there are several courses in your working
-directory. Also note that by running the \texttt{crsra\_import()}
-command, you import all tables for each course into R in a list called
+execute the command
+\texttt{crsra\_import()}.\footnote{You can also dowanload the dummy data included in the data folder in the package repository on Github.}
+If you are not pointing to the correct directory, you will receive a
+warning, and the execution will be halted. Note that the data import may
+take some time if the course data is large and there are several courses
+in your working directory. Also note that by running the
+\texttt{crsra\_import()} command, you import all tables for each course
+into R in a list called
 \texttt{all\_tables}.\footnote{For a list of all the tables in the data download, please go to the URL \url{https://github.com/jhudsl/crsra/blob/master/ListofTables.md}}
 
 Tables can be called using
