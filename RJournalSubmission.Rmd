@@ -2,13 +2,13 @@
 title: '\pkg{crsra}: A package for Cleaning and Analyzing Coursera Research Export Data'
 author:
   - name: Aboozar Hadavand
-    affiliation: Bloomberg School of Public Health, Johns Hopkins University
+    affiliation: Department of Biostatistics, Bloomberg School of Public Health, Johns Hopkins University
     address:
     - 615 N. Wolfe Street
     - Baltimore, MD 21205, USA
     email:  hadavand@jhu.edu
   - name: Jeffrey Leek
-    affiliation: Bloomberg School of Public Health, Johns Hopkins University
+    affiliation: Department of Biostatistics, Bloomberg School of Public Health, Johns Hopkins University
     address:
     - 615 N. Wolfe Street
     - Baltimore, MD 21205, USA
